@@ -298,7 +298,8 @@ html {
   right: 25%;
   top: 10%;
   bottom: 10%;
-  /* border: 1px solid black; */
+  border: 1px black solid;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -321,8 +322,11 @@ html {
   /* border: 1px solid black; */
   background-color: white;
   height: 80%;
-  /* display: grid;
-  justify-content: center; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
+  grid-gap: 0.75em 0.75em;
+  overflow-y: scroll;
+  padding: 15px 15px;
 }
 
 .enclosure-modal-footer {
@@ -339,24 +343,47 @@ html {
 }
 
 .enclosure-info {
-  border: 1px black solid;
-  padding: 10px 25px;
-  width: 40%;
+  /* border: 1px black solid; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px 20px;
+  background-color: whitesmoke;
+  border-radius: 6px;
 }
 
 .enclosure-info-name {
   font-size: larger;
+  margin-bottom: 5px;
+  font-weight: 400;
 }
 
-/* .enclosure-info-type {
+.enclosure-info-type {
+  font-size: small;
+  font-weight: 400;
 }
 
 .enclosure-info-seats {
+  font-size: small;
+  font-weight: 400;
 }
 
 .enclosure-info-price {
-} */
+  font-size: small;
+  font-weight: 400;
+}
 
 .enclosure-info-book {
   width: 100%;
+  margin-top: 11px;
+  padding: 7px 5px;
+  background-color: #d5d3d3;
+  border: none;
+  border-radius: 4px;
+  border: 1px whitesmoke solid;
+}
+
+.enclosure-info-book:hover {
+  cursor: pointer;
+  border: 1px black solid;
 }

@@ -28,7 +28,7 @@ export default function EnclosureModal({ show, setShow }) {
     },
   ];
 
-  function handleClose() {
+  function handleClose(e) {
     setShow(show ? false : true);
   }
 
@@ -36,7 +36,7 @@ export default function EnclosureModal({ show, setShow }) {
     <div
       className="enclosure-modal"
       style={{ display: show ? "Block" : "None" }}
-      onClick={handleClose}
+      // onClick={handleClose}
     >
       <div className="enclosure-modal-content">
         <div className="enclosure-modal-title">Choose Your Enclosure</div>
