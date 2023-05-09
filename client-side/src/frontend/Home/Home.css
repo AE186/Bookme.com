@@ -1,0 +1,362 @@
+body,
+html {
+  height: 100%;
+  margin: none;
+  padding: none;
+  box-sizing: border-box;
+}
+
+.Home {
+  height: 100vh;
+  width: 100vw;
+}
+
+.home-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 18px;
+  border-bottom: 0.01px black solid;
+}
+
+.home-logo {
+  padding: 4px;
+  margin-left: 50%;
+  transform: translate(-50%, 0px);
+}
+
+.home-btn {
+  margin-left: auto;
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px white solid;
+  background-color: whitesmoke;
+}
+
+.home-btn:hover {
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.services {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 0.01px black solid;
+}
+
+.service-tag {
+  padding: 13px 20px;
+  margin-right: 15px;
+  background-color: rgb(230 230 230);
+  border-radius: 15px;
+  font-weight: 600;
+}
+
+.home-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: justify;
+  padding: 50px 69px;
+}
+
+.home-title {
+  font-size: x-large;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.home-body {
+  font-size: medium;
+  margin-bottom: 35px;
+}
+
+.info-container {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+  margin: 0px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.info-box {
+  border: 1px aliceblue solid;
+  width: 30%;
+  margin: 0px 10px;
+  padding: 30px;
+  border-radius: 41px;
+  background-color: lightblue;
+}
+
+.info-title {
+  font-size: large;
+  font-weight: 700;
+  color: darkblue;
+  margin-bottom: 8px;
+}
+
+.info-body {
+  font-size: small;
+  color: darkblue;
+  font-weight: 400;
+}
+
+.home-cover {
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+.home-cover-img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.bus-input-group {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+  border-bottom: 1px grey solid;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.bus-input {
+  width: 20%;
+  margin: 0px 7px;
+  padding: 10px 25px;
+}
+
+#bus-input-btn:hover {
+  cursor: pointer;
+}
+
+.result-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 350px;
+  background-color: whitesmoke;
+  padding: 20px 0px;
+}
+
+.bus-ticket-space {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.bus-ticket {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  margin: 10px 0px;
+}
+
+.bus-component {
+  margin: 9px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bus-ticket-destinations {
+  font-size: large;
+  font-weight: 600;
+}
+
+.bus-ticket-time {
+  font-size: larger;
+  font-weight: lighter;
+}
+
+.bus-ticket-price {
+  font-size: medium;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.bus-ticket-img img {
+  width: 115px;
+}
+
+.bus-ticket-book {
+  padding: 6px 20px;
+  border: none;
+  /* background-color: rgb(23, 23, 92); */
+}
+
+.bus-ticket-book:hover {
+  cursor: pointer;
+  background-color: rgb(220, 220, 220);
+}
+
+.select-match-title {
+  border-bottom: 1px black solid;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  font-size: xx-large;
+}
+
+.cricket-ticket-space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.cricket-ticket {
+  border: 1px grey solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  margin: 15px 0px;
+}
+
+.cricket-ticket:hover {
+  cursor: pointer;
+}
+
+.cricket-ticket-head {
+  width: 100%;
+  height: 10%;
+  text-align: center;
+  border-bottom: 1px grey solid;
+  padding: 15px 0px;
+  background-color: rgb(230, 230, 230);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.cricket-ticket-body {
+  width: 100%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(240, 240, 240);
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  /* margin: 25px; */
+}
+
+.cricket-ticket-body-ele {
+  margin: 20px 40px;
+}
+
+.cricket-ticket-team img {
+  width: 100px;
+}
+
+.cricket-ticket-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cricket-ticket-time {
+  font-size: medium;
+  font-weight: 600;
+}
+
+.cricket-ticket-date {
+  font-size: small;
+  font-weight: 400;
+}
+
+.cricket-ticket-venue {
+  font-size: smaller;
+  font-weight: 400;
+}
+
+.enclosure-modal {
+  border: 1px solid black;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.enclosure-modal-content {
+  position: fixed;
+  left: 25%;
+  right: 25%;
+  top: 10%;
+  bottom: 10%;
+  /* border: 1px solid black; */
+  display: flex;
+  flex-direction: column;
+}
+
+.enclosure-modal-title {
+  /* border: 1px solid black; */
+  background-color: white;
+  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: larger;
+  border-bottom: 1px grey solid;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.enclosure-modal-body {
+  /* border: 1px solid black; */
+  background-color: white;
+  height: 80%;
+  /* display: grid;
+  justify-content: center; */
+}
+
+.enclosure-modal-footer {
+  /* border: 1px solid black; */
+  border-top: 1px grey solid;
+  background-color: white;
+  height: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 15px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.enclosure-info {
+  border: 1px black solid;
+  padding: 10px 25px;
+  width: 40%;
+}
+
+.enclosure-info-name {
+  font-size: larger;
+}
+
+/* .enclosure-info-type {
+}
+
+.enclosure-info-seats {
+}
+
+.enclosure-info-price {
+} */
+
+.enclosure-info-book {
+  width: 100%;
+}
