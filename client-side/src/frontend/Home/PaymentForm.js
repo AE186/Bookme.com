@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   CardNumberElement,
   CardCvcElement,
@@ -13,7 +12,7 @@ const CARD_OPTIONS = {
     base: {
       iconColor: "#c4f0ff",
       color: "black",
-      fontWeight: 500,
+      fontWeight: 400,
       fontFamily: "Roboto, Open Sans, Segoe UI, sans-serif",
       fontSize: "16px",
       fontSmoothing: "antialiased",
@@ -62,7 +61,7 @@ export default function PaymentForm({ ticket, success, setSuccess }) {
         console.log("Error", error);
       }
     } else {
-      console.log(error.message);
+      alert(error.message);
     }
   }
 
@@ -89,18 +88,18 @@ export default function PaymentForm({ ticket, success, setSuccess }) {
         // </form>
 
         <div className="payment">
+          <div className="card-label">Card Number</div>
           <div className="cardnum payment-inp">
             <CardNumberElement options={CARD_OPTIONS} />
           </div>
-
+          <div className="card-label">Expiry</div>
           <div className="card-expiry payment-inp">
             <CardExpiryElement options={CARD_OPTIONS} />
           </div>
-
+          <div className="card-label">CVC</div>
           <div className="card-cvc payment-inp">
             <CardCvcElement options={CARD_OPTIONS} />
           </div>
-
           <button
             className="card-pay"
             onClick={handleSubmit}
