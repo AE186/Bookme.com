@@ -27,8 +27,11 @@ export default function CricketTicket({ info, setTicket, setShow }) {
   };
 
   function handleClick() {
-    setTicket((prevState) => ({ ...prevState, ...info }));
     setShow(true);
+    setTicket((prevState) => ({
+      ...prevState,
+      ...info,
+    }));
   }
 
   return (

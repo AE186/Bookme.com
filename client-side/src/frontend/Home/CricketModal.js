@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import "./Home.css";
+import Payment from "./Payment";
 
 export default function CricketModal({ show, setShow, ticket, setTicket }) {
   const [step, setStep] = useState("enclosure");
+  const [success, setSuccess] = useState(false);
 
   var date = new Date(ticket.date);
   var day = {
@@ -58,6 +60,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
   ];
 
   function handleClose() {
+    setSuccess(false);
     setShow(show ? false : true);
     setStep("enclosure");
     setTicket((prevState) => ({
@@ -67,9 +70,10 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
   }
 
   function handleBook(e) {
+    console.log(e.target);
     let enclosure;
     for (let i = 0; i < enclosures.length; i++) {
-      if (enclosures[i].key === e.target.name) {
+      if (enclosures[i].key == e.target.name) {
         enclosure = enclosures[i];
         console.log(enclosure);
       }
@@ -96,6 +100,14 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
     console.log(ticket);
   }
 
+  function handleConfirm() {
+    console.log("payment", ticket.tickets, ticket.enclosure.left);
+    if (ticket.tickets > 0 && ticket.tickets <= ticket.enclosure.left) {
+      console.log("confirm");
+      setStep("payment");
+    }
+  }
+
   return (
     <div
       className="modal"
@@ -109,6 +121,18 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
         <div className="modal-title">
           {step === "enclosure" && "Choose Your Enclosure"}
           {step === "confirm" && "Select your seats"}
+          {step === "payment" && "Payment"}
+        </div>
+
+        <div
+          className="payment-modal-body"
+          style={{ display: step === "payment" ? "flex" : "none" }}
+        >
+          <Payment
+            ticket={ticket}
+            success={success}
+            setSuccess={setSuccess}
+          />
         </div>
 
         <div
@@ -190,6 +214,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
                   ? "#f91111c7"
                   : "rgb(220, 220, 220)",
             }}
+            onClick={handleConfirm}
           >
             Confirm
           </button>

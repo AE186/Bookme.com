@@ -1,7 +1,12 @@
+import { useState } from "react";
+
 import "./Home.css";
 import Payment from "./Payment";
 
 export default function BusModal({ ticket, setTicket, show, setShow }) {
+  const [step, setStep] = useState("confirm");
+  const [success, setSuccess] = useState(false);
+
   var date = new Date(ticket.date);
   var day = {
     0: "Saturday",
@@ -28,6 +33,8 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
   };
 
   function handleClose() {
+    setSuccess(false);
+    setStep("confirm");
     setShow(show ? false : true);
     setTicket((prevState) => ({
       ...prevState,
@@ -44,6 +51,12 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
     // console.log(ticket);
   }
 
+  function handleConfirm() {
+    if (ticket.tickets > 0 && ticket.tickets <= ticket.left) {
+      setStep("payment");
+    }
+  }
+
   console.log(ticket);
   return (
     <div
@@ -56,13 +69,25 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
         style={{ top: "20%", bottom: "20%" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-title">Select your seats</div>
+        <div className="modal-title">
+          {step === "confirm" && "Select your seats"}
+          {step === "payment" && "Payment"}
+        </div>
 
-        <Payment />
+        <div
+          className="payment-modal-body"
+          style={{ display: step === "payment" ? "flex" : "none" }}
+        >
+          <Payment
+            ticket={ticket}
+            success={success}
+            setSuccess={setSuccess}
+          />
+        </div>
 
         <div
           className="confirm-modal-body"
-          style={{ display: "flex" }}
+          style={{ display: step === "confirm" ? "flex" : "none" }}
         >
           <div className="confirm-title">
             Route: {ticket.pickup} To {ticket.arrival}
@@ -103,6 +128,7 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
                   ? "#f91111c7"
                   : "rgb(220, 220, 220)",
             }}
+            onClick={handleConfirm}
           >
             Confirm
           </button>
