@@ -1,16 +1,20 @@
 const mongoose = require('mongoose')
 
 const customerSchema = new mongoose.Schema({
-    firstname :{
+    email : {
+        type : String,
+        required:true
+    },
+    fname :{
         type: String,
         required:true,
     
     },
-    lastname : {
+    lname : {
         type:String,
         required:true
     },
-    nic : {
+    Password : {
         type:String,
         required:true
     } 
