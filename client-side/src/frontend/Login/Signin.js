@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
+import axios from "axios";
 
 export default function Signin() {
   const [user, setUser] = useState({ Email: "", Password: "" });
@@ -10,9 +11,28 @@ export default function Signin() {
 
   function handleSubmit() {
     // console.log(user.Email, user.Password);
-    if (user.Email !== "saad.imran.vohra@gmail.com") {
-      document.getElementsByClassName("danger")[0].style.display = "block";
-    }
+    // axios.post(
+    //   ('http://localhost:5001/signin') , {
+    //     userName : user.Email,
+    //     Password : user.Password
+    //   }
+    // ).then((response) =>
+    // {
+    //   console.log('Logged in successfully')
+    // } , (error) => {
+    //   console.log(error)
+    // })
+
+    axios.post('http://localhost:5001/signin' , {
+      email : user.Email,
+      Password : user.Password
+    }).then((res) => 
+    {
+      console.log(res)
+    })
+
+    
+
   }
 
   function handleInput(e) {
