@@ -16,7 +16,15 @@ export default function Cricket() {
     date: "",
     venue: "",
     city: "",
-    enclosure: {},
+    enclosure: {
+      key: 0,
+      name: "",
+      type: "",
+      price: "",
+      seats: 0,
+      left: 0,
+    },
+    tickets: 1,
   });
 
   var alltickets = [

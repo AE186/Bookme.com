@@ -2,8 +2,33 @@ import { useState } from "react";
 
 import "./Home.css";
 
-export default function EnclosureModal({ show, setShow, ticket, setTicket }) {
+export default function CricketModal({ show, setShow, ticket, setTicket }) {
   const [step, setStep] = useState("enclosure");
+
+  var date = new Date(ticket.date);
+  var day = {
+    0: "Saturday",
+    1: "Sunday",
+    2: "Monday",
+    3: "Tuesday",
+    4: "Wednesday",
+    5: "Thursday",
+    6: "Friday",
+  };
+  var month = {
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sept",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
+  };
 
   var enclosures = [
     {
@@ -32,40 +57,56 @@ export default function EnclosureModal({ show, setShow, ticket, setTicket }) {
     },
   ];
 
-  function handleClose(e) {
+  function handleClose() {
     setShow(show ? false : true);
     setStep("enclosure");
+    setTicket((prevState) => ({
+      ...prevState,
+      tickets: 1,
+    }));
   }
 
   function handleBook(e) {
     let enclosure;
     for (let i = 0; i < enclosures.length; i++) {
-      if (enclosures[i].key === e.target.name) {
+      if (enclosures[i].key == e.target.name) {
         enclosure = enclosures[i];
+        console.log(enclosure);
       }
     }
-    // console.log(enclosure);
 
     setTicket((prevState) => ({
       ...prevState,
-      enclosure: enclosure,
+      enclosure: {
+        ...prevState.enclosure,
+        ...enclosure,
+      },
     }));
     setStep("confirm");
 
     console.log(ticket);
   }
 
+  function handleTicketInput(e) {
+    setTicket((prevState) => ({
+      ...prevState,
+      tickets: e.target.value,
+    }));
+
+    console.log(ticket);
+  }
+
   return (
     <div
-      className="cricket-modal"
+      className="modal"
       style={{ display: show ? "Block" : "None" }}
       onClick={handleClose}
     >
       <div
-        className="cricket-modal-content"
+        className="modal-content"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="cricket-modal-title">
+        <div className="modal-title">
           {step === "enclosure" && "Choose Your Enclosure"}
           {step === "confirm" && "Select your seats"}
         </div>
@@ -99,12 +140,62 @@ export default function EnclosureModal({ show, setShow, ticket, setTicket }) {
 
         <div
           className="confirm-modal-body"
-          style={{ display: step === "confirm" ? "Block" : "None" }}
+          style={{ display: step === "confirm" ? "flex" : "none" }}
         >
-          Confirm
+          <div className="confirm-title">
+            Match: {ticket.team1} vs {ticket.team2}
+          </div>
+
+          <div className="confirm-time">Time: {ticket.time}</div>
+
+          <div className="confirm-date">
+            Date: {day[date.getDay()]} {date.getDate()} {month[date.getMonth()]}
+            , {date.getFullYear()}
+          </div>
+
+          <div className="confirm-enclosure">
+            Enclosure: {ticket.enclosure.name}
+          </div>
+
+          <div className="confirm-enclosure-type">
+            Type: {ticket.enclosure.type}
+          </div>
+
+          <div className="confirm-seatleft">
+            Seats Left: {ticket.enclosure.left}
+          </div>
+
+          <div className="confirm-ticket-num">
+            Tickets:{" "}
+            <input
+              type="number"
+              value={ticket.tickets}
+              onInput={handleTicketInput}
+            />
+          </div>
+
+          <div className="confirm-price">
+            Price: Rs {ticket.enclosure.price * ticket.tickets}
+          </div>
+
+          <div className="confirm-stadium">
+            Stadium: {ticket.venue}, {ticket.city}
+          </div>
+
+          <button
+            className="confirm-btn"
+            style={{
+              backgroundColor:
+                ticket.tickets > 0 && ticket.tickets <= ticket.enclosure.left
+                  ? "#f91111c7"
+                  : "rgb(220, 220, 220)",
+            }}
+          >
+            Confirm
+          </button>
         </div>
 
-        <div className="cricket-modal-footer">
+        <div className="modal-footer">
           <button onClick={handleClose}>Close</button>
         </div>
       </div>
