@@ -1,6 +1,14 @@
 import "./Home.css";
 
-export default function BusTicket({ ticket }) {
+export default function BusTicket({ info, setTicket, setShow }) {
+  function handleBook() {
+    setShow(true);
+    setTicket((prevState) => ({
+      ...prevState,
+      ...info,
+    }));
+  }
+
   return (
     <div className="bus-ticket">
       <div className="bus-ticket-img bus-component">
@@ -9,17 +17,26 @@ export default function BusTicket({ ticket }) {
           alt=""
         />
       </div>
+
       <div className="bus-ticket-info bus-component">
         <div className="bus-ticket-destinations">
-          {ticket.pickup} To {ticket.arrival}
+          {info.pickup} To {info.arrival}
         </div>
+
         <div className="bus-ticket-time">
-          {ticket.pickup_time} - {ticket.arrival_time}
+          {info.pickup_time} - {info.arrival_time}
         </div>
       </div>
+
       <div className="bus-ticket-last bus-component">
-        <div className="bus-ticket-price">RS {ticket.price}</div>
-        <button className="bus-ticket-book">bookme</button>
+        <div className="bus-ticket-price">RS {info.price}</div>
+
+        <button
+          className="bus-ticket-book"
+          onClick={handleBook}
+        >
+          bookme
+        </button>
       </div>
     </div>
   );

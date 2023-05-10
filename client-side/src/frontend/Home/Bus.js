@@ -2,56 +2,72 @@ import { useState } from "react";
 
 import "./Home.css";
 import BusTicket from "./BusTicket";
+import BusModal from "./BusModal";
 
 export default function Bus() {
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
+  const [show, setShow] = useState(false);
+  const [ticket, setTicket] = useState({
+    pickup: "",
+    arrival: "",
+    date: "",
+    pickup_time: "",
+    arrival_time: "",
+    seats: 0,
+    left: 0,
+    price: 0,
+    tickets: 1,
+  });
 
   const city = ["Karachi", "Lahore", "Hyderabad", "Islamabad", "peshawar"];
 
-  const today = new Date();
+  const today = new Date("05-10-2023");
   let year = today.getFullYear();
   let month = today.getMonth() + 1;
   let day = today.getDate() + 1;
 
-  if (month < 10) {
-    month = "0" + month.toString();
-  }
-  if (day < 10) {
-    day = "0" + day.toString();
-  }
+  console.log(month + day + year);
 
   var result = [];
   result = [
     {
       pickup: "Karachi",
       arrival: "Lahore",
-      date: day + month + year,
+      date: "05-10-2023",
       pickup_time: "10:00 AM",
       arrival_time: "03:45 PM",
+      seats: 50,
+      left: 33,
       price: 7999,
     },
     {
       pickup: "Karachi",
       arrival: "Lahore",
-      date: day + month + year,
+      date: "05-10-2023",
       pickup_time: "10:00 AM",
       arrival_time: "03:45 PM",
+      seats: 50,
+      left: 33,
       price: 7999,
     },
     {
       pickup: "Karachi",
       arrival: "Lahore",
-      date: day + month + year,
+      date: "05-10-2023",
       pickup_time: "10:00 AM",
       arrival_time: "03:45 PM",
+      seats: 50,
+      left: 33,
       price: 7999,
     },
     {
       pickup: "Karachi",
       arrival: "Lahore",
-      date: day + month + year,
+      date: "05-10-2023",
       pickup_time: "10:00 AM",
       arrival_time: "03:45 PM",
+      seats: 50,
+      left: 33,
       price: 7999,
     },
   ];
@@ -74,6 +90,13 @@ export default function Bus() {
 
   return (
     <div className="home-wrapper">
+      <BusModal
+        ticket={ticket}
+        setTicket={setTicket}
+        show={show}
+        setShow={setShow}
+      />
+
       <div className="home-cover">
         <img
           className="home-cover-img"
@@ -81,6 +104,7 @@ export default function Bus() {
           alt=""
         />
       </div>
+
       <div className="bus-input-group">
         <select
           name="pickup"
@@ -100,6 +124,7 @@ export default function Bus() {
             return <option value={item}>{item}</option>;
           })}
         </select>
+
         <select
           name="arrival"
           className="bus-input"
@@ -118,6 +143,7 @@ export default function Bus() {
             return <option value={item}>{item}</option>;
           })}
         </select>
+
         <input
           type="date"
           name="date"
@@ -128,6 +154,7 @@ export default function Bus() {
           value={search.date}
           onChange={handleInputChange}
         />
+
         <button
           className="bus-input"
           id="bus-input-btn"
@@ -136,20 +163,29 @@ export default function Bus() {
           Search
         </button>
       </div>
+
       <div className="result-box">
         {no_inputs && (
           <div className="no-result">Input all the required Fields.</div>
         )}
+
         {result.length === 0 && !no_inputs && (
           <div className="no-result">
             Oops! We could not find any bus at this time. Please select a
             different date.
           </div>
         )}
+
         {result.length > 0 && !no_inputs && (
           <div className="bus-ticket-space">
             {result.map((item) => {
-              return <BusTicket ticket={item} />;
+              return (
+                <BusTicket
+                  info={item}
+                  setTicket={setTicket}
+                  setShow={setShow}
+                />
+              );
             })}
           </div>
         )}

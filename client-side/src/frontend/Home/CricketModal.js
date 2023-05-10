@@ -98,15 +98,15 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
 
   return (
     <div
-      className="cricket-modal"
+      className="modal"
       style={{ display: show ? "Block" : "None" }}
       onClick={handleClose}
     >
       <div
-        className="cricket-modal-content"
+        className="modal-content"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="cricket-modal-title">
+        <div className="modal-title">
           {step === "enclosure" && "Choose Your Enclosure"}
           {step === "confirm" && "Select your seats"}
         </div>
@@ -142,7 +142,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
           className="confirm-modal-body"
           style={{ display: step === "confirm" ? "flex" : "none" }}
         >
-          <div className="confirm-match">
+          <div className="confirm-title">
             Match: {ticket.team1} vs {ticket.team2}
           </div>
 
@@ -195,7 +195,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
           </button>
         </div>
 
-        <div className="cricket-modal-footer">
+        <div className="modal-footer">
           <button onClick={handleClose}>Close</button>
         </div>
       </div>
