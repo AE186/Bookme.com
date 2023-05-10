@@ -1,4 +1,5 @@
 import "./Home.css";
+import Payment from "./Payment";
 
 export default function BusModal({ ticket, setTicket, show, setShow }) {
   var date = new Date(ticket.date);
@@ -56,6 +57,8 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-title">Select your seats</div>
+
+        <Payment />
 
         <div
           className="confirm-modal-body"

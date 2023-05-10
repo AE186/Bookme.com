@@ -69,7 +69,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
   function handleBook(e) {
     let enclosure;
     for (let i = 0; i < enclosures.length; i++) {
-      if (enclosures[i].key == e.target.name) {
+      if (enclosures[i].key === e.target.name) {
         enclosure = enclosures[i];
         console.log(enclosure);
       }
