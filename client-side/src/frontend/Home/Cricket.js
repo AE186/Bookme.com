@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import "./Home.css";
 import CricketTicket from "./CricketTicket";
-import EnclosureModal from "./EnclosureModal";
+import CricketModal from "./CricketModal";
 
 export default function Cricket() {
   const [show, setShow] = useState(false);
@@ -16,6 +16,7 @@ export default function Cricket() {
     date: "",
     venue: "",
     city: "",
+    enclosure: {},
   });
 
   var alltickets = [
@@ -62,7 +63,9 @@ export default function Cricket() {
 
   return (
     <div className="home-wrapper">
-      <EnclosureModal
+      <CricketModal
+        ticket={ticket}
+        setTicket={setTicket}
         show={show}
         setShow={setShow}
       />
