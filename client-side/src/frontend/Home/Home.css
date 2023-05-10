@@ -294,8 +294,8 @@ html {
 
 .cricket-modal-content {
   position: fixed;
-  left: 25%;
-  right: 25%;
+  left: 30%;
+  right: 30%;
   top: 10%;
   bottom: 10%;
   border: 1px black solid;
@@ -391,4 +391,86 @@ html {
 .confirm-modal-body {
   background-color: white;
   height: 80%;
+  display: flex-start;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  padding: 0px 2.5em;
+}
+
+.confirm-match {
+  font-size: larger;
+  font-weight: 500;
+  margin-bottom: 13px;
+  margin-top: 23px;
+}
+
+.confirm-time {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-date {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-enclosure {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-enclosure-type {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-seatleft {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-ticket-num {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.confirm-ticket-num input {
+  padding: 4px 10px;
+  border: 1px grey solid;
+  width: 3em;
+  margin: 5px 0;
+}
+
+.confirm-price {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 5px 0;
+}
+
+.confirm-stadium {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: auto;
+}
+
+.confirm-btn {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 20px;
+  padding: 10px 5px;
+  background-color: #f91111c7;
+  border: 1px black solid;
+  border-radius: 3px;
+}
+
+.confirm-btn:hover {
+  cursor: pointer;
+  border: 1px black solid;
 }
