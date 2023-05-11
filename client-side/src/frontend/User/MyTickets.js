@@ -90,6 +90,7 @@ export default function MyTickets() {
               <BusTicket
                 info={item}
                 isticket={true}
+                isupdate={false}
                 setModal={setModal}
               />
             );

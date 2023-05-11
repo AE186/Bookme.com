@@ -226,6 +226,7 @@ html {
   justify-content: center;
   border-radius: 20px;
   margin: 15px 0px;
+  width: fit-content;
 }
 
 .cricket-ticket:hover {

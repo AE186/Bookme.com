@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
 
 import "./Home.css";
 import CricketTicket from "./CricketTicket";
 import CricketModal from "./CricketModal";
 
 export default function Cricket() {
+  const [cookies] = useCookies(["user"]);
+
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
     key: 0,
+    _id: cookies.user,
+    event: "cricket",
     team1: "",
     team2: "",
     team1_img: "",

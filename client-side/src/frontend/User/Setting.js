@@ -6,14 +6,14 @@ import axios from "axios";
 import "../Home/Home.css";
 import "./User.css";
 
-export default function Setting({ user, setUser }) {
+export default function Setting({ user, setUser, isAdmin }) {
+  console.log(user.fname, user.lname, user.email);
   const [input, setInput] = useState({
-    fname: user.fname,
-    lname: user.lname,
-    email: user.email,
+    ...user,
     Password: "",
     reenter_pass: "",
   });
+  console.log(input);
 
   const [cookies] = useCookies(["user"]);
 
@@ -34,27 +34,31 @@ export default function Setting({ user, setUser }) {
       return;
     }
 
-    axios
-      .post("http://localhost:5001/user/update", {
-        _id: cookies.user,
-        fname: input.fname,
-        lname: input.lname,
-        email: input.email,
-        Password: input.Password,
-      })
-      .then((res) => {
-        console.log(res);
+    if (isAdmin) {
+      console.log(input);
+    } else {
+      axios
+        .post("http://localhost:5001/user/update", {
+          _id: cookies.user,
+          fname: input.fname,
+          lname: input.lname,
+          email: input.email,
+          Password: input.Password,
+        })
+        .then((res) => {
+          console.log(res);
 
-        if (res.data.acknowledged) {
-          console.log("Changed");
-          setUser((prevState) => ({
-            ...prevState,
-            ...input,
-          }));
-        } else {
-          console.log("error");
-        }
-      });
+          if (res.data.acknowledged) {
+            console.log("Changed");
+            setUser((prevState) => ({
+              ...prevState,
+              ...input,
+            }));
+          } else {
+            console.log("error");
+          }
+        });
+    }
   }
 
   return (

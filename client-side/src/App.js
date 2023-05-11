@@ -5,6 +5,8 @@ import Signin from "./frontend/Login/Signin";
 import Signup from "./frontend/Login/Signup";
 import Home from "./frontend/Home/Home";
 import Welcome from "./frontend/Welcome/welcome";
+import Admin from "./frontend/Admin/Admin";
+
 function App() {
   return (
     <div className="App">
@@ -14,6 +16,11 @@ function App() {
             exact
             path="/"
             element={<Home />}
+          ></Route>
+          <Route
+            exact
+            path="/admin"
+            element={<Admin />}
           ></Route>
           <Route
             exact
@@ -32,8 +39,6 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
-      
-
     </div>
   );
 }

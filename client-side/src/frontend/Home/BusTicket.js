@@ -5,6 +5,7 @@ export default function BusTicket({
   setTicket,
   setShow,
   isticket,
+  isupdate,
   setModal,
 }) {
   function handleBook() {
@@ -49,7 +50,7 @@ export default function BusTicket({
           className="bus-ticket-book"
           onClick={handleBook}
         >
-          {isticket ? "QR Code" : "bookme"}
+          {isticket ? "QR Code" : isupdate ? "Update" : "bookme"}
         </button>
       </div>
     </div>

@@ -7,12 +7,22 @@ import axios from "axios";
 
 export default function Signin() {
   const [user, setUser] = useState({ Email: "", Password: "" });
-  const [cookies, setCookies] = useCookies(["user"]);
+  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
+
+  removeCookies("user");
+  removeCookies("admin");
 
   const navigate = useNavigate();
 
   function handleSubmit() {
-
+    if (user.Email === "admin" && user.Password === "admin") {
+      setCookies("admin", "admin", {
+        maxAge: 60 * 60 * 24,
+        path: "/",
+      });
+      navigate("/admin");
+      return;
+    }
 
     axios
       .post("http://localhost:5001/signin", {
