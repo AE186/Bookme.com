@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import Payment from "./Payment";
+import axios from "axios";
 
 export default function CricketModal({ show, setShow, ticket, setTicket }) {
   const [step, setStep] = useState("enclosure");
@@ -36,6 +37,27 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
     10: "Nov",
     11: "Dec",
   };
+
+  var enclosures = []
+
+  axios.get("http://localhost:5001/enclosure").then((res)=>{
+    
+    for (let i = 0; i < res.data.length; i++) {
+      var temp = {
+        key : res.data[i]._id,
+        name: res.data[i].name,
+        type: res.data[i].type,
+        price: res.data[i].price,
+        seats: res.data[i].seats,
+        left: res.data[i].left,
+      }
+      enclosures.push(temp);
+    }
+
+  } , (error) => {
+    console.log(error);
+    navigate("/Home")
+  })
 
   var enclosures = [
     {

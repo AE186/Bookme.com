@@ -4,7 +4,16 @@ const cors = require("cors");
 
 const app = express();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
 const customerModel = require("./Model/Customer.js");
+const busModel = require("./Model/buses.js");
+const matchesModel = require("./Model/matches.js")
+const enclosureModel = require("./Model/enclosure.js")
+// const ticketModel = require("./Model/cricketTicket.js");
+
+
+
 const nodemailer = require('nodemailer')
 const transport = nodemailer.createTransport({
     service : 'Gmail',
@@ -26,7 +35,7 @@ mongoose.connect(
 app.post("/signup", async (req, res) => {
   const fname = req.body.fname;
   const lname = req.body.lname;
-  const Password = req.body.Password;
+  const Password = bcrypt.hashSync(req.body.Password, 8);
   const email = req.body.email;
   const token = jwt.sign({email : email},'ammar-secret-key')
   const customer = customerModel({
@@ -55,26 +64,58 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// app.post("/create", async(req,res)=>{
-//     const firstName = req.body.firstName
-//     const lastName = req.body.lastName
-//     const nic = req.body.nic
-//     const customer = customerModel({firstname : firstName,lastname : lastName, nic : nic})
+app.get("/bus", async(req,res) => {
+  try {
+    busModel.find().then( (foundBuses) => {
+      res.send(foundBuses)
+    } , (error)=>{
+      res.send(error)
+    })
+  }
+  catch(err){
+    console.log('Invalid request')
+    res.sendStatus(404)
 
-//     try{
-//     customer.save();
-//     }
-//     catch(err){
-//         console.log(err)
-//     }
+  }
+})
 
-// });
+
+app.get("/cricket" , async(req,res) => {
+  try {
+    matchesModel.find().then((foundMatches)=>{
+      res.send(foundMatches)
+    } , (error)=>{
+      console.log(error)
+      res.sendStatus(404);
+    })
+  }
+  catch {
+    res.sendStatus(404);
+  }
+})
+
+
+app.get("/enclosure" , async(req,res) => {
+  try {
+    enclosureModel.find().then((foundEnclosures)=>{
+      res.send(foundEnclosures)
+    } , (error)=>{
+      console.log(error)
+      res.sendStatus(404);
+    })
+  }
+  catch {
+    res.sendStatus(404);
+  }
+
+})
+
 
 app.post("/signin", async (req, res) => {
   customerModel
     .find({
       email: req.body.email,
-      Password: req.body.Password,
+      Password: bcrypt.hashSync(req.body.Password, 8)
     })
     .then(
       (response) => {
@@ -108,11 +149,13 @@ app.get('/confirm/:confirmationCode', async(req,res) => {
     try{
         const token = req.params.confirmationCode
         customerModel.findOne({confirmationCode : token}).then((response) => {
-            response.status = 'Active'
+            
+            response.Status = 'Active'
             response.save()
-            res.send('User verified')
+            res.send(response)
+            // console.log(response)
         } , (err) => {
-            res.send('User not found')
+            res.send(err)
         })
     }
     catch(err)

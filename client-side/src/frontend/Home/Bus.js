@@ -3,6 +3,9 @@ import { useState } from "react";
 import "./Home.css";
 import BusTicket from "./BusTicket";
 import BusModal from "./BusModal";
+import axios from "axios";
+
+
 
 export default function Bus() {
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
@@ -19,7 +22,8 @@ export default function Bus() {
     tickets: 1,
   });
 
-  const city = ["Karachi", "Lahore", "Hyderabad", "Islamabad", "peshawar"];
+  // const city = ["Karachi", "Lahore", "Hyderabad", "Islamabad", "peshawar"];
+  const city = []
 
   const today = new Date("05-10-2023");
   let year = today.getFullYear();
@@ -27,50 +31,80 @@ export default function Bus() {
   let day = today.getDate() + 1;
 
   console.log(month + day + year);
-
   var result = [];
-  result = [
-    {
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-  ];
+
+  axios.get("http://localhost:5001/bus").then((res) => {
+
+    for (let i = 0; i < res.data.length; i++) {
+      var temp = {
+        key : res.data[i]._id,
+        pickup: res.data[i].pickup,
+        arrival: res.data[i].arrival,
+        date: res.data[i].date,
+        pickup_time: res.data[i].pickup_time,
+        arrival_time: res.data[i].arrival_time,
+        seats: res.data[i].seats,
+        left: res.data[i].left,
+        price: res.data[i].price,
+      }
+      if (!city.includes(temp.pickup)){
+        city.push(temp.pickup)
+      }
+      if (!city.includes(temp.arrival)){
+        city.push(temp.arrival)
+      }
+      result.push(temp);
+    }
+    // result = res.data;
+    console.log(result)
+
+  } , (err) => {
+    console.log('Could not get the Buses from database')
+  })
+
+
+  // result = [
+  //   {
+  //     pickup: "Karachi",
+  //     arrival: "Lahore",
+  //     date: "05-10-2023",
+  //     pickup_time: "10:00 AM",
+  //     arrival_time: "03:45 PM",
+  //     seats: 50,
+  //     left: 33,
+  //     price: 7999,
+  //   },
+  //   {
+  //     pickup: "Karachi",
+  //     arrival: "Lahore",
+  //     date: "05-10-2023",
+  //     pickup_time: "10:00 AM",
+  //     arrival_time: "03:45 PM",
+  //     seats: 50,
+  //     left: 33,
+  //     price: 7999,
+  //   },
+  //   {
+  //     pickup: "Karachi",
+  //     arrival: "Lahore",
+  //     date: "05-10-2023",
+  //     pickup_time: "10:00 AM",
+  //     arrival_time: "03:45 PM",
+  //     seats: 50,
+  //     left: 33,
+  //     price: 7999,
+  //   },
+  //   {
+  //     pickup: "Karachi",
+  //     arrival: "Lahore",
+  //     date: "05-10-2023",
+  //     pickup_time: "10:00 AM",
+  //     arrival_time: "03:45 PM",
+  //     seats: 50,
+  //     left: 33,
+  //     price: 7999,
+  //   },
+  // ];
 
   var no_inputs = false;
   if (
