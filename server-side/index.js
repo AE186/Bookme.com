@@ -83,6 +83,29 @@ app.post("/user", async (req, res) => {
     );
 });
 
+app.post("/user/update", async (req, res) => {
+  customerModel
+    .updateOne(
+      {
+        _id: req.body._id,
+      },
+      {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        Password: req.body.Password,
+      }
+    )
+    .then(
+      (response) => {
+        res.send(response);
+      },
+      (err) => {
+        res.sendStatus(404); //not found
+      }
+    );
+});
+
 app.listen(5001, () => {
   console.log(`Listening to port 5001`);
 });

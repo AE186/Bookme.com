@@ -7,6 +7,8 @@ import Info from "./Info";
 import Bus from "./Bus";
 import Cricket from "./Cricket";
 import UserWidget from "../User/UserWidget";
+import Setting from "../User/Setting";
+import MyTickets from "../User/MyTickets";
 
 export default function Home() {
   // for selecting options: Info or Bus or Cricket Page
@@ -66,23 +68,20 @@ export default function Home() {
         </div>
       </div>
 
-      {state === "info" && (
-        <div className="info">
-          <Info></Info>
-        </div>
+      {state === "info" && <Info />}
+
+      {state === "bus" && <Bus />}
+
+      {state === "cricket" && <Cricket />}
+
+      {state === "setting" && (
+        <Setting
+          user={user}
+          setUser={setUser}
+        />
       )}
 
-      {state === "bus" && (
-        <div className="info">
-          <Bus />
-        </div>
-      )}
-
-      {state === "cricket" && (
-        <div className="info">
-          <Cricket />
-        </div>
-      )}
+      {state === "tickets" && <MyTickets />}
     </div>
   );
 }

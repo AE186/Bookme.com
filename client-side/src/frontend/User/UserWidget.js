@@ -46,8 +46,23 @@ export default function UserWidget({ user, setUser, setState }) {
   }
 
   function handleSignOut() {
+    setUser({
+      fname: "",
+      lname: "",
+      email: "",
+    });
     removeCookies("user");
     navigate("/signin");
+  }
+
+  function handleSetting() {
+    setState("setting");
+    setShow(false);
+  }
+
+  function handleTickets() {
+    setState("tickets");
+    setShow(false);
   }
 
   return (
@@ -66,13 +81,13 @@ export default function UserWidget({ user, setUser, setState }) {
       >
         <div
           className="widget-option"
-          onClick={() => setState("setting")}
+          onClick={handleSetting}
         >
           Settings
         </div>
         <div
           className="widget-option"
-          onClick={() => setState("tickets")}
+          onClick={handleTickets}
         >
           My Tickets
         </div>
