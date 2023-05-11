@@ -17,7 +17,7 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/Signin"
+            path="/signin"
             element={<Signin />}
           ></Route>
           <Route

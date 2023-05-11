@@ -1,0 +1,31 @@
+.user-widget {
+  width: auto;
+  /* position: relative; */
+}
+
+.user-widget-content {
+  position: absolute;
+  background-color: white;
+  border: 1px rgba(0, 0, 0, 0.6) solid;
+  border-bottom: none;
+  box-sizing: border-box;
+  top: 72px;
+  right: 12px;
+  border-radius: 4px;
+  /* display: none; */
+}
+
+/* .user-widget-content:hover {
+  display: block;
+} */
+
+.widget-option {
+  border-bottom: 1px rgba(0, 0, 0, 0.6) solid;
+  padding: 4px 0;
+  width: 110px;
+}
+
+.widget-option:hover {
+  cursor: pointer;
+  background-color: rgba(247, 247, 247, 0.6);
+}

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import Payment from "./Payment";
@@ -6,6 +8,9 @@ import Payment from "./Payment";
 export default function CricketModal({ show, setShow, ticket, setTicket }) {
   const [step, setStep] = useState("enclosure");
   const [success, setSuccess] = useState(false);
+
+  const [cookies] = useCookies(["user"]);
+  const navigate = useNavigate();
 
   var date = new Date(ticket.date);
   var day = {
@@ -101,7 +106,12 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
   }
 
   function handleConfirm() {
-    console.log("payment", ticket.tickets, ticket.enclosure.left);
+    if (cookies.user === undefined) {
+      alert("Please Sign in");
+      navigate("/signin");
+      return;
+    }
+
     if (ticket.tickets > 0 && ticket.tickets <= ticket.enclosure.left) {
       console.log("confirm");
       setStep("payment");
