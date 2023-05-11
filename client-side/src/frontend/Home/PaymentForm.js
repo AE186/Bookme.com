@@ -5,6 +5,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import axios from "axios";
 
 const CARD_OPTIONS = {
   iconStyle: "solid",
@@ -45,6 +46,16 @@ export default function PaymentForm({ ticket, success, setSuccess }) {
 
     if (!error) {
       try {
+        console.log(ticket)
+        axios.post("http://localhost:5001/payment", {ticket : ticket, id : paymentMethod.id})
+        .then((response) => {
+          console.log('Successful Payment')
+          setSuccess(true)
+        })
+        .catch((err) => {
+          console.log(`Error: ${err}`)
+        })
+        
         // Add server-side API code
         // send ticket to db see ticket structure in Criket.js Bus.js
         // const { id } = paymentMethod;
@@ -53,11 +64,9 @@ export default function PaymentForm({ ticket, success, setSuccess }) {
         //   id,
         // });
 
-        if (true /*response.data.success*/) {
-          console.log("Successful Payment");
-          setSuccess(true);
-        }
-      } catch (error) {
+        
+      }
+      catch (error) {
         console.log("Error", error);
       }
     } else {

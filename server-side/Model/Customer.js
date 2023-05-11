@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+// cricketTicket = use('./cricketTicket')
 const customerSchema = new mongoose.Schema({
     email : {
         type : String,
@@ -26,7 +26,15 @@ const customerSchema = new mongoose.Schema({
     confirmationCode : {
         type : String,
         unique : true
-    }
+    },
+    cricketTicket : [{
+        type : mongoose.Schema.Types.ObjectId, ref: 'cricketTicket',
+        // required:true
+    }],
+    busTicket : [{
+        type : mongoose.Schema.Types.ObjectId, ref: 'buses',
+        // required:true
+    }]
 
     
 });

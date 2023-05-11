@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
+<<<<<<< HEAD
 
+=======
+>>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
 import "./Home.css";
 import BusTicket from "./BusTicket";
 import BusModal from "./BusModal";
+// import axios from "axios";
+
+
 
 export default function Bus() {
+<<<<<<< HEAD
   const [cookies] = useCookies(["user"]);
+=======
+  const [cookies] = useCookies(["user"])
+
+>>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
 
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
     key: 0,
+<<<<<<< HEAD
     _id: cookies.user,
     event: "bus",
+=======
+    _id:cookies.user,
+    type: "bus",
+>>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
     pickup: "",
     arrival: "",
     date: "",
@@ -26,6 +42,7 @@ export default function Bus() {
   });
 
   const city = ["Karachi", "Lahore", "Hyderabad", "Islamabad", "peshawar"];
+  // const city = []
 
   const today = new Date("05-10-2023");
   let year = today.getFullYear();
@@ -33,52 +50,61 @@ export default function Bus() {
   let day = today.getDate() + 1;
 
   console.log(month + day + year);
+  // var result = [];
 
-  var result = [];
-  result = [
+  // axios.get("http://localhost:5001/bus").then((res) => {
+
+  //   for (let i = 0; i < res.data.length; i++) {
+  //     var temp = {
+  //       key : res.data[i]._id,
+  //       pickup: res.data[i].pickup,
+  //       arrival: res.data[i].arrival,
+  //       date: res.data[i].date,
+  //       pickup_time: res.data[i].pickup_time,
+  //       arrival_time: res.data[i].arrival_time,
+  //       seats: res.data[i].seats,
+  //       left: res.data[i].left,
+  //       price: res.data[i].price,
+  //     }
+  //     if (!city.includes(temp.pickup)){
+  //       city.push(temp.pickup)
+  //     }
+  //     if (!city.includes(temp.arrival)){
+  //       city.push(temp.arrival)
+  //     }
+  //     result.push(temp);
+  //   }
+  //   // result = res.data;
+  //   console.log(result)
+
+  // } , (err) => {
+  //   console.log('Could not get the Buses from database')
+  // })
+
+
+  var result = [
+
     {
-      key: 42069,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
+      key : '645d16870bef102f815e1f1c',
+      pickup: "Lahore",
+      arrival: "Islamabad",
+      date: "10-10-2023",
+      pickup_time: "11:00 AM",
+      arrival_time: "16:00 PM",
       seats: 50,
-      left: 33,
-      price: 7999,
+      left: 50,
+      price: 3500,
     },
     {
-      key: 42069,
+      key : '645d16870bef102f815e1f1d',
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
       pickup_time: "10:00 AM",
       arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      key: 42069,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      key: 42069,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
+      seats: 100,
+      left: 100,
+      price: 7500,
     },
   ];
 
