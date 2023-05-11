@@ -22,9 +22,9 @@ export default function Signin() {
       .then((res) => {
         console.log(res);
 
-        if (res.data[0] && "_id" in res.data[0]) {
+        if (res.data && "_id" in res.data) {
           console.log("success");
-          setCookies("user", res.data[0]._id, {
+          setCookies("user", res.data._id, {
             maxAge: 60 * 60 * 24,
             path: "/",
           });

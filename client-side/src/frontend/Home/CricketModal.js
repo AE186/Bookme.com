@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import Payment from "./Payment";
-import axios from "axios";
+// import axios from "axios";
 
 export default function CricketModal({ show, setShow, ticket, setTicket }) {
   const [step, setStep] = useState("enclosure");
@@ -38,30 +38,31 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
     11: "Dec",
   };
 
-  var enclosures = []
+  // var enclosures = []
+  // API to get all enclousres but it is not working on frontend
 
-  axios.get("http://localhost:5001/enclosure").then((res)=>{
+  // axios.get("http://localhost:5001/enclosure").then((res)=>{
     
-    for (let i = 0; i < res.data.length; i++) {
-      var temp = {
-        key : res.data[i]._id,
-        name: res.data[i].name,
-        type: res.data[i].type,
-        price: res.data[i].price,
-        seats: res.data[i].seats,
-        left: res.data[i].left,
-      }
-      enclosures.push(temp);
-    }
+  //   for (let i = 0; i < res.data.length; i++) {
+  //     var temp = {
+  //       key : res.data[i]._id,
+  //       name: res.data[i].name,
+  //       type: res.data[i].type,
+  //       price: res.data[i].price,
+  //       seats: res.data[i].seats,
+  //       left: res.data[i].left,
+  //     }
+  //     enclosures.push(temp);
+  //   }
 
-  } , (error) => {
-    console.log(error);
-    navigate("/Home")
-  })
+  // } , (error) => {
+  //   console.log(error);
+  //   navigate("/Home")
+  // })
 
   var enclosures = [
     {
-      key: 100,
+      key: '645d16870bef102f815e1f1e',
       name: "Wasim Akram",
       type: "First-Class",
       price: "600",
@@ -69,20 +70,12 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
       left: 49,
     },
     {
-      key: 2,
+      key: '645d16870bef102f815e1f1f',
       name: "Imran Khan",
       type: "Premium",
       price: "1000",
       seats: 120,
       left: 60,
-    },
-    {
-      key: 3,
-      name: "Hanif Muhammad",
-      type: "VIP",
-      price: "1700",
-      seats: 90,
-      left: 47,
     },
   ];
 
@@ -100,7 +93,7 @@ export default function CricketModal({ show, setShow, ticket, setTicket }) {
     console.log(e.target);
     let enclosure;
     for (let i = 0; i < enclosures.length; i++) {
-      if (enclosures[i].key == e.target.name) {
+      if (enclosures[i].key === e.target.name) {
         enclosure = enclosures[i];
         console.log(enclosure);
       }

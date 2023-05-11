@@ -29,11 +29,11 @@ const customerSchema = new mongoose.Schema({
     },
     cricketTicket : [{
         type : mongoose.Schema.Types.ObjectId, ref: 'cricketTicket',
-        required:true
+        // required:true
     }],
     busTicket : [{
         type : mongoose.Schema.Types.ObjectId, ref: 'buses',
-        required:true
+        // required:true
     }]
 
     

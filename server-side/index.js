@@ -10,6 +10,7 @@ const customerModel = require("./Model/Customer.js");
 const busModel = require("./Model/buses.js");
 const matchesModel = require("./Model/matches.js")
 const enclosureModel = require("./Model/enclosure.js")
+const cricketTicketModel = require("./Model/cricketTicket.js")
 // const ticketModel = require("./Model/cricketTicket.js");
 
 
@@ -115,12 +116,13 @@ app.get("/enclosure" , async(req,res) => {
 
 app.post("/signin", async (req, res) => {
   customerModel
-    .find({
+    .findOne({
       email: req.body.email,
-      Password: bcrypt.hashSync(req.body.Password, 8)
+      // Password: bcrypt.hashSync(req.body.Password, 8)
     })
     .then(
       (response) => {
+        console.log(response);
         res.send(response);
       },
       (err) => {
@@ -145,6 +147,79 @@ app.post("/user", async (req, res) => {
       }
     );
 });
+
+
+app.post("/payment" , async(req,res) => {
+
+  console.log(req.body.ticket.key)
+  if (req.body.ticket.type === "bus") {
+    busModel.findOne({ _id: req.body.ticket.key }).then((foundBus) => {
+      foundBus.left = foundBus.left - req.body.ticket.tickets;
+      // foundBus.save();
+      customerModel.findOne({_id : req.body.ticket._id}).then((foundCustomer) => {
+        console.log(foundCustomer)
+        foundCustomer.busTicket.push(foundBus._id)
+        Promise.all([foundBus.save() , foundCustomer.save()]).then((saved) => {
+        res.sendStatus(200);
+
+        })
+        // foundCustomer.save()
+      } , (err) => {
+        res.sendStatus(404)
+      })
+      // res.sendStatus(200);
+    } , (err) => {
+      res.sendStatus(404)
+    })
+  }
+  else if (req.body.ticket.type === "cricket") 
+  {
+    receivedTicket = req.body.ticket
+    console.log(receivedTicket._id)
+    enclosureModel.findOne({_id : receivedTicket.enclosure.key}).then((foundEnclosure) => {
+      foundEnclosure.left = foundEnclosure.left - receivedTicket.tickets
+      foundEnclosure.save()
+      const ticket = new cricketTicketModel({
+        team1 : receivedTicket.team1,
+        team2 : receivedTicket.team2,
+        date : receivedTicket.date,
+        venue : receivedTicket.venue,
+        city : receivedTicket.city,
+        enclosure : foundEnclosure._id,
+      })
+      Promise.all([ticket.save()]).then((savedTicket) => {
+        customerModel.findOne({_id : receivedTicket._id}).then((foundCustomer) => {
+          if (foundCustomer)
+          {
+            // console.log(foundCustomer)
+            console.log(savedTicket._id)
+            foundCustomer.cricketTicket.push(savedTicket[0]._id)
+            console.log(foundCustomer)
+            foundCustomer.save()
+            // Promise.one(foundCustomer.save()) 
+            res.sendStatus(200)
+          }
+          else {
+            return null
+          }
+          
+        } , (err) => {
+          res.sendStatus(404)
+        } , (err) => {
+          res.sendStatus(404)
+        })
+      } , (err)=> {
+        res.sendStatus(404)
+      })
+      // res.sendStatus(200)
+    } , (err) => {
+      res.sendStatus(404)
+    } , (err) => {
+      console.log('Enclosure not found')
+      res.sendStatus(404)
+    })
+  }
+})
 
 
 app.get('/confirm/:confirmationCode', async(req,res) => {
