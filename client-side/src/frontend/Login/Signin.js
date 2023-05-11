@@ -14,20 +14,6 @@ export default function Signin() {
   function handleSubmit() {
 
 
-<<<<<<< HEAD
-    axios.post('http://localhost:5001/signin' , {
-      email : user.Email,
-      Password : user.Password
-    }).then(() => 
-    {
-      navigate("/")
-    } , (err) => {
-      console.log(err)
-      navigate("/Signin")
-    })
-
-    
-=======
     axios
       .post("http://localhost:5001/signin", {
         email: user.Email,
@@ -35,7 +21,6 @@ export default function Signin() {
       })
       .then((res) => {
         console.log(res);
->>>>>>> 2eac744010a977aa2dfbde48bf5b76fc7773a4ef
 
         if (res.data[0] && "_id" in res.data[0]) {
           console.log("success");
