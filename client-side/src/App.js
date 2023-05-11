@@ -4,7 +4,7 @@ import "./App.css";
 import Signin from "./frontend/Login/Signin";
 import Signup from "./frontend/Login/Signup";
 import Home from "./frontend/Home/Home";
-
+import Welcome from "./frontend/Welcome/welcome";
 function App() {
   return (
     <div className="App">
@@ -25,8 +25,15 @@ function App() {
             path="/signup"
             element={<Signup />}
           ></Route>
+          <Route
+            exact
+            path="/welcome"
+            element={<Welcome />}
+          ></Route>
         </Routes>
       </BrowserRouter>
+      
+
     </div>
   );
 }

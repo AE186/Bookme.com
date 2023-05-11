@@ -10,25 +10,17 @@ export default function Signin() {
   const navigate = useNavigate();
 
   function handleSubmit() {
-    // console.log(user.Email, user.Password);
-    // axios.post(
-    //   ('http://localhost:5001/signin') , {
-    //     userName : user.Email,
-    //     Password : user.Password
-    //   }
-    // ).then((response) =>
-    // {
-    //   console.log('Logged in successfully')
-    // } , (error) => {
-    //   console.log(error)
-    // })
+
 
     axios.post('http://localhost:5001/signin' , {
       email : user.Email,
       Password : user.Password
-    }).then((res) => 
+    }).then(() => 
     {
-      console.log(res)
+      navigate("/")
+    } , (err) => {
+      console.log(err)
+      navigate("/Signin")
     })
 
     

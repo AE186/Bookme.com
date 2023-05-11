@@ -30,11 +30,14 @@ export default function Signin() {
         lname : user.lname,
         fname : user.fname
       })
-      .then( () =>
-      console.log('Data added successfully')
+      .then( (req,res) => {
+        console.log(res)
+        navigate("/signin")
+      }
+      
       )
       .catch((err) => {
-        console.log(err)
+        console.log(`Could not sign up`)
       })
       }  
     }
