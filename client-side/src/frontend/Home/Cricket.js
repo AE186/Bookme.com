@@ -101,6 +101,7 @@ export default function Cricket() {
                 info={item}
                 setTicket={setTicket}
                 setShow={setShow}
+                isticket={false}
               />
             );
           })}

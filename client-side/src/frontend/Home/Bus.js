@@ -8,6 +8,7 @@ export default function Bus() {
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
+    key: 0,
     pickup: "",
     arrival: "",
     date: "",
@@ -31,6 +32,7 @@ export default function Bus() {
   var result = [];
   result = [
     {
+      key: 42069,
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
@@ -41,6 +43,7 @@ export default function Bus() {
       price: 7999,
     },
     {
+      key: 42069,
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
@@ -51,6 +54,7 @@ export default function Bus() {
       price: 7999,
     },
     {
+      key: 42069,
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
@@ -61,6 +65,7 @@ export default function Bus() {
       price: 7999,
     },
     {
+      key: 42069,
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
@@ -184,6 +189,7 @@ export default function Bus() {
                   info={item}
                   setTicket={setTicket}
                   setShow={setShow}
+                  isticket={false}
                 />
               );
             })}

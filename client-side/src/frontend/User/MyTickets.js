@@ -4,9 +4,14 @@ import "../Home/Home.css";
 import "./User.css";
 import BusTicket from "../Home/BusTicket";
 import CricketTicket from "../Home/CricketTicket";
+import QRModal from "./QRModal";
 
 export default function MyTickets() {
   const [event, setEvent] = useState("bus");
+  const [modal, setModal] = useState({
+    key: 0,
+    show: false,
+  });
 
   var myCricketTickets = [
     {
@@ -26,6 +31,7 @@ export default function MyTickets() {
 
   var myBusTickets = [
     {
+      key: 69420,
       pickup: "Karachi",
       arrival: "Lahore",
       date: "05-10-2023",
@@ -40,9 +46,16 @@ export default function MyTickets() {
   function handleClick(e) {
     setEvent(e.target.id);
   }
-  //   console.log(event === "cricket");
+
   return (
-    <div className="home-wrapper">
+    <div
+      className="home-wrapper"
+      style={{ paddingTop: "10px" }}
+    >
+      <QRModal
+        modal={modal}
+        setModal={setModal}
+      />
       <div className="title ticket-title">My Tickets</div>
       <div className="ticket-label">
         <div
@@ -73,11 +86,23 @@ export default function MyTickets() {
       <div className="result-box tickets">
         {event === "bus" &&
           myBusTickets.map((item) => {
-            return <BusTicket info={item} />;
+            return (
+              <BusTicket
+                info={item}
+                isticket={true}
+                setModal={setModal}
+              />
+            );
           })}
         {event === "cricket" &&
           myCricketTickets.map((item) => {
-            return <CricketTicket info={item} />;
+            return (
+              <CricketTicket
+                info={item}
+                isticket={true}
+                setModal={setModal}
+              />
+            );
           })}
       </div>
     </div>

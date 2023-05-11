@@ -102,3 +102,8 @@
   padding: 50px 69px;
   box-sizing: border-box;
 }
+
+.QR-modal-body {
+  background-color: white;
+  height: 80%;
+}

@@ -1,6 +1,12 @@
 import "./Home.css";
 
-export default function CricketTicket({ info, setTicket, setShow }) {
+export default function CricketTicket({
+  info,
+  setTicket,
+  setShow,
+  isticket,
+  setModal,
+}) {
   var date = new Date(info.date);
   var day = {
     0: "Saturday",
@@ -27,11 +33,19 @@ export default function CricketTicket({ info, setTicket, setShow }) {
   };
 
   function handleClick() {
-    setShow(true);
-    setTicket((prevState) => ({
-      ...prevState,
-      ...info,
-    }));
+    if (!isticket) {
+      setShow(true);
+      setTicket((prevState) => ({
+        ...prevState,
+        ...info,
+      }));
+    } else {
+      // console.log(modal.key);
+      setModal({
+        key: info.key,
+        show: true,
+      });
+    }
   }
 
   return (
