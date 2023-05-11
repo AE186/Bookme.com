@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import "./Login.css";
 import axios from "axios";
 
 export default function Signin() {
   const [user, setUser] = useState({ Email: "", Password: "" });
+  const [cookies, setCookies] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
@@ -23,16 +25,25 @@ export default function Signin() {
     //   console.log(error)
     // })
 
-    axios.post('http://localhost:5001/signin' , {
-      email : user.Email,
-      Password : user.Password
-    }).then((res) => 
-    {
-      console.log(res)
-    })
+    axios
+      .post("http://localhost:5001/signin", {
+        email: user.Email,
+        Password: user.Password,
+      })
+      .then((res) => {
+        console.log(res);
 
-    
-
+        if (res.data[0] && "_id" in res.data[0]) {
+          console.log("success");
+          setCookies("user", res.data[0]._id, {
+            maxAge: 60 * 60 * 24,
+            path: "/",
+          });
+          navigate("/");
+        } else {
+          document.getElementsByClassName("danger")[0].style.display = "Block";
+        }
+      });
   }
 
   function handleInput(e) {

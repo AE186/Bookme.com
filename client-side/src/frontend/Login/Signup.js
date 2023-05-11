@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 import "./Login.css";
 
 export default function Signin() {
@@ -21,24 +21,24 @@ export default function Signin() {
       user.fname.length === 0
     ) {
       document.getElementsByClassName("danger")[0].style.display = "block";
+    } else {
+      axios
+        .post("http://localhost:5001/signup", {
+          email: user.Email,
+          Password: user.Password,
+          lname: user.lname,
+          fname: user.fname,
+        })
+        .then(() => {
+          console.log(user);
+          console.log("Data added successfully");
+          navigate("/signin");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    else
-    {
-      axios.post(('http://localhost:5001/signup') , {
-        email : user.Email,
-        Password : user.Password,
-        lname : user.lname,
-        fname : user.fname
-      })
-      .then( () =>
-      console.log('Data added successfully')
-      )
-      .catch((err) => {
-        console.log(err)
-      })
-      }  
-    }
-  
+  }
 
   function handleInput(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -108,4 +108,4 @@ export default function Signin() {
       </div>
     </div>
   );
-  }
+}
