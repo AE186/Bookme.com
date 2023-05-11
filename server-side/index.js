@@ -73,6 +73,23 @@ app.post("/signin", async (req, res) => {
     );
 });
 
+app.post("/user", async (req, res) => {
+  customerModel
+    .find({
+      // email: req.body.email,
+      // Password: req.body.Password,
+      _id: req.body._id,
+    })
+    .then(
+      (response) => {
+        res.send(response);
+      },
+      (err) => {
+        res.sendStatus(404); //not found
+      }
+    );
+});
+
 app.listen(5001, () => {
   console.log(`Listening to port 5001`);
 });

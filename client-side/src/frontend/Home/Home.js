@@ -9,11 +9,16 @@ import Cricket from "./Cricket";
 import UserWidget from "../User/UserWidget";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
-
   // for selecting options: Info or Bus or Cricket Page
   const [state, setState] = useState("info");
+  const [user, setUser] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+  });
+
+  const navigate = useNavigate();
+  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
 
   return (
     <div className="Home">
@@ -33,7 +38,13 @@ export default function Home() {
             Login
           </button>
         ) : (
-          <UserWidget />
+          <div className="home-btn">
+            <UserWidget
+              user={user}
+              setUser={setUser}
+              setState={setState}
+            />
+          </div>
         )}
       </div>
 
@@ -53,14 +64,6 @@ export default function Home() {
         >
           Cricket
         </div>
-
-        <div
-          className="service-tag"
-          id="cricket"
-          onClick={() => removeCookies("user")}
-        >
-          Log out
-        </div>
       </div>
 
       {state === "info" && (
@@ -71,13 +74,13 @@ export default function Home() {
 
       {state === "bus" && (
         <div className="info">
-          <Bus></Bus>
+          <Bus />
         </div>
       )}
 
       {state === "cricket" && (
         <div className="info">
-          <Cricket></Cricket>
+          <Cricket />
         </div>
       )}
     </div>

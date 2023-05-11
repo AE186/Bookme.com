@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 import "./Home.css";
 import Payment from "./Payment";
@@ -6,6 +8,9 @@ import Payment from "./Payment";
 export default function BusModal({ ticket, setTicket, show, setShow }) {
   const [step, setStep] = useState("confirm");
   const [success, setSuccess] = useState(false);
+
+  const [cookies] = useCookies(["user"]);
+  const navigate = useNavigate();
 
   var date = new Date(ticket.date);
   var day = {
@@ -52,6 +57,12 @@ export default function BusModal({ ticket, setTicket, show, setShow }) {
   }
 
   function handleConfirm() {
+    if (cookies.user === undefined) {
+      alert("Please Sign in");
+      navigate("/signin");
+      return;
+    }
+
     if (ticket.tickets > 0 && ticket.tickets <= ticket.left) {
       setStep("payment");
     }
