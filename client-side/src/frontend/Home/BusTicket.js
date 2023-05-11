@@ -1,12 +1,26 @@
 import "./Home.css";
 
-export default function BusTicket({ info, setTicket, setShow }) {
+export default function BusTicket({
+  info,
+  setTicket,
+  setShow,
+  isticket,
+  setModal,
+}) {
   function handleBook() {
-    setShow(true);
-    setTicket((prevState) => ({
-      ...prevState,
-      ...info,
-    }));
+    if (!isticket) {
+      setShow(true);
+      setTicket((prevState) => ({
+        ...prevState,
+        ...info,
+      }));
+    } else {
+      // console.log(modal.key);
+      setModal({
+        key: info.key,
+        show: true,
+      });
+    }
   }
 
   return (
@@ -35,7 +49,7 @@ export default function BusTicket({ info, setTicket, setShow }) {
           className="bus-ticket-book"
           onClick={handleBook}
         >
-          bookme
+          {isticket ? "QR Code" : "bookme"}
         </button>
       </div>
     </div>

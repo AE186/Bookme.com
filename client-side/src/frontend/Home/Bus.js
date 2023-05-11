@@ -11,6 +11,7 @@ export default function Bus() {
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
+    key: 0,
     pickup: "",
     arrival: "",
     date: "",
@@ -218,6 +219,7 @@ export default function Bus() {
                   info={item}
                   setTicket={setTicket}
                   setShow={setShow}
+                  isticket={false}
                 />
               );
             })}
