@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import "./Login.css";
 import axios from "axios";
 
 export default function Signin() {
   const [user, setUser] = useState({ Email: "", Password: "" });
+  const [cookies, setCookies] = useCookies(["user"]);
 
   const navigate = useNavigate();
 
   function handleSubmit() {
 
 
+<<<<<<< HEAD
     axios.post('http://localhost:5001/signin' , {
       email : user.Email,
       Password : user.Password
@@ -24,7 +27,27 @@ export default function Signin() {
     })
 
     
+=======
+    axios
+      .post("http://localhost:5001/signin", {
+        email: user.Email,
+        Password: user.Password,
+      })
+      .then((res) => {
+        console.log(res);
+>>>>>>> 2eac744010a977aa2dfbde48bf5b76fc7773a4ef
 
+        if (res.data[0] && "_id" in res.data[0]) {
+          console.log("success");
+          setCookies("user", res.data[0]._id, {
+            maxAge: 60 * 60 * 24,
+            path: "/",
+          });
+          navigate("/");
+        } else {
+          document.getElementsByClassName("danger")[0].style.display = "Block";
+        }
+      });
   }
 
   function handleInput(e) {

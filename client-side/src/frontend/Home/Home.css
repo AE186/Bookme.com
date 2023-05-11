@@ -296,8 +296,8 @@ html {
   position: fixed;
   left: 30%;
   right: 30%;
-  top: 10%;
-  bottom: 10%;
+  top: 15%;
+  bottom: 15%;
   border: 1px black solid;
   border-radius: 10px;
   display: flex;
@@ -473,4 +473,55 @@ html {
 .confirm-btn:hover {
   cursor: pointer;
   border: 1px black solid;
+}
+
+.payment-modal-body {
+  background-color: white;
+  height: 80%;
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+  flex-direction: column;
+  padding: 0px 2.5em;
+}
+
+.payment {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.payment-inp {
+  border: 1px black solid;
+  padding: 8px 7px;
+  margin-bottom: 5px;
+  background-color: rgb(250, 250, 250);
+  border-radius: 4px;
+}
+
+.card-cvc {
+  margin-bottom: auto;
+}
+
+.card-pay {
+  font-size: small;
+  font-weight: 400;
+  margin-bottom: 20px;
+  padding: 10px 5px;
+  background-color: #f91111c7;
+  border: 1px black solid;
+  border-radius: 3px;
+}
+
+.card-pay:hover {
+  cursor: pointer;
+  border: 1px black solid;
+}
+
+.card-label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
 }

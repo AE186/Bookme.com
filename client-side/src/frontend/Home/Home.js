@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import "./Home.css";
 import Info from "./Info";
 import Bus from "./Bus";
 import Cricket from "./Cricket";
+import UserWidget from "../User/UserWidget";
 
 export default function Home() {
   const navigate = useNavigate();
+  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
 
   // for selecting options: Info or Bus or Cricket Page
   const [state, setState] = useState("info");
@@ -22,12 +25,16 @@ export default function Home() {
           onClick={() => setState("info")}
         />
 
-        <button
-          className="home-btn"
-          onClick={() => navigate("/signin")}
-        >
-          Login
-        </button>
+        {cookies.user == undefined ? (
+          <button
+            className="home-btn"
+            onClick={() => navigate("/signin")}
+          >
+            Login
+          </button>
+        ) : (
+          <UserWidget />
+        )}
       </div>
 
       <div className="services">
@@ -45,6 +52,14 @@ export default function Home() {
           onClick={() => setState("cricket")}
         >
           Cricket
+        </div>
+
+        <div
+          className="service-tag"
+          id="cricket"
+          onClick={() => removeCookies("user")}
+        >
+          Log out
         </div>
       </div>
 
