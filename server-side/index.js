@@ -3,9 +3,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-
+const jwt = require("jsonwebtoken");
 const customerModel = require("./Model/Customer.js");
-
+const nodemailer = require("nodemailer");
+const transport = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "k200177@nu.edu.pk",
+    pass: "t2t1s342FFt2",
+  },
+});
 app.use(express.json());
 app.use(cors());
 
@@ -21,14 +28,29 @@ app.post("/signup", async (req, res) => {
   const lname = req.body.lname;
   const Password = req.body.Password;
   const email = req.body.email;
+  const token = jwt.sign({ email: email }, "ammar-secret-key");
   const customer = customerModel({
     fname: fname,
     lname: lname,
     Password: Password,
     email: email,
+    confirmationCode: token,
   });
   try {
     customer.save();
+
+    transport
+      .sendMail({
+        from: "k200177@nu.edu.pk",
+        to: email,
+        subject: "Confirm your account",
+        html: `<h1>Email Confirmation</h1>
+        <h2>Hello ${fname}</h2>
+        <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
+        <a href=http://localhost:5001/confirm/${token}> Click here</a>
+        </div>`,
+      })
+      .catch((err) => console.log(`Could not send email`));
     res.sendStatus(200);
   } catch (err) {
     console.log(err);

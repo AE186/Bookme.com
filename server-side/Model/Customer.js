@@ -17,7 +17,16 @@ const customerSchema = new mongoose.Schema({
     Password : {
         type:String,
         required:true
-    } 
+    },
+    Status : {
+        type : String,
+        enum : ['Pending' , 'Active'],
+        default : 'Pending'
+    },
+    confirmationCode : {
+        type : String,
+        unique : true
+    }
 
     
 });
