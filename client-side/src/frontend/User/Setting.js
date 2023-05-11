@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
 
 import axios from "axios";
@@ -15,7 +15,7 @@ export default function Setting({ user, setUser }) {
     reenter_pass: "",
   });
 
-  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"]);
 
   function handleInput(e) {
     console.log("change");

@@ -76,3 +76,29 @@
 .setting-btn:hover {
   cursor: pointer;
 }
+
+.ticket-title {
+  width: 100%;
+  text-align: center;
+}
+
+.ticket-label {
+  text-align: justify;
+  margin-bottom: 5px;
+  /* margin: 0 25%; */
+  display: flex;
+}
+
+.ticket-event {
+  margin: 5px 5px;
+}
+
+.tickets {
+  background-color: whitesmoke;
+  width: 100%;
+  min-height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px 69px;
+  box-sizing: border-box;
+}
