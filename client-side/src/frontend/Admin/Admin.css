@@ -135,6 +135,7 @@ html {
   background-color: white;
   height: 80%;
   padding: 15px 25px;
+  overflow-y: scroll;
 }
 
 .admin-create-inp {

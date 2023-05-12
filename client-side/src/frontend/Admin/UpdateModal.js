@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 import "./Admin.css";
 import "../Home/Home.css";
 
-export default function UpdateModal({ event, modal, setModal }) {
+export default function UpdateModal({
+  event,
+  modal,
+  setModal,
+  change,
+  setChange,
+}) {
   const [cricket, setCricket] = useState({
     key: 0,
     team1: "",
@@ -21,11 +29,64 @@ export default function UpdateModal({ event, modal, setModal }) {
     date: "",
     pickup_time: "",
     arrival_time: "",
+    seats: 0,
     price: 0,
   });
 
+  const [cookies] = useCookies(["admin"]);
+
   // API cal for getting tickets info using modal.key
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    if (event == "cricket") {
+      // get bus ticket info
+      console.log("Getting Cricket Ticket");
+      axios
+        .post("http://localhost:5001/getCricketTicket", {
+          _id: modal.key,
+        })
+        .then(
+          (response) => {
+            console.log(response);
+
+            if (response.data && "_id" in response.data) {
+              console.log(response);
+              setCricket((prevState) => ({
+                ...prevState,
+                ...response.data,
+              }));
+              return;
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      // get cricket ticket info
+      console.log("Getting Bus Ticket");
+      axios
+        .post("http://localhost:5001/getBusTicket", {
+          _id: modal.key,
+        })
+        .then(
+          (response) => {
+            console.log(response);
+
+            if (response.data && "_id" in response.data) {
+              console.log(response.data);
+              setBus((prevState) => ({
+                ...prevState,
+                ...response.data,
+              }));
+              return;
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
+  }, []);
 
   function handleClose() {
     setModal({
@@ -49,7 +110,53 @@ export default function UpdateModal({ event, modal, setModal }) {
   }
 
   //   API Call for updation  of ticket
-  function handleUpdate() {}
+  function handleUpdate() {
+    if (event === "cricket") {
+      axios
+        .post("http://localhost:5001/admin/update/cricket", {
+          ticket: cricket,
+          admin: cookies.admin,
+          _id: modal.key,
+        })
+        .then((response) => {
+          console.log("Updated successFully");
+          setChange(change ? false : true);
+          setModal({
+            key: 0,
+            show: false,
+          });
+        })
+        .catch((error) => {
+          alert(error);
+          console.log(
+            "An error occured while entering into the cricket database"
+          );
+        });
+    } else {
+      axios
+        .post("http://localhost:5001/admin/update/bus", {
+          ticket: bus,
+          admin: cookies.admin,
+          _id: modal.key,
+        })
+        .then((response) => {
+          console.log("Updated successFully");
+          setChange(change ? false : true);
+          setModal({
+            key: 0,
+            show: false,
+          });
+        })
+        .catch((error) => {
+          alert(error);
+          console.log(
+            "An error occured while entering into the cricket database"
+          );
+        });
+    }
+  }
+
+  console.log(event, cricket, bus);
 
   return (
     <div
@@ -61,7 +168,7 @@ export default function UpdateModal({ event, modal, setModal }) {
         className="modal-content"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal-title">Create Ticket</div>
+        <div className="modal-title">Ticket Info</div>
 
         <div className="admin-create-body">
           {event === "cricket" && (
@@ -168,6 +275,15 @@ export default function UpdateModal({ event, modal, setModal }) {
                     value={bus.arrival_time}
                   />
                 </div>
+              </div>
+              <div className="admin-create-inp">
+                Seats:
+                <input
+                  type="number"
+                  name="seats"
+                  onChange={handleBus}
+                  value={bus.seats}
+                />
               </div>
               <div className="admin-create-inp">
                 Price:

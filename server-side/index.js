@@ -134,10 +134,32 @@ app.post("/signin", async (req, res) => {
 app.post("/user", async (req, res) => {
   customerModel
     .find({
-      // email: req.body.email,
-      // Password: req.body.Password,
       _id: req.body._id,
     })
+    .then(
+      (response) => {
+        res.send(response);
+      },
+      (err) => {
+        res.sendStatus(404); //not found
+      }
+    );
+});
+
+app.post("/user/update", async (req, res) => {
+  console.log(req.body);
+  customerModel
+    .findOneAndUpdate(
+      {
+        _id: req.body._id,
+      },
+      {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        Password: req.body.Password,
+      }
+    )
     .then(
       (response) => {
         res.send(response);
@@ -332,126 +354,332 @@ app.get("/confirm/:confirmationCode", async (req, res) => {
   }
 });
 
-
-
-app.post("/admin/getDataBus", async(request,response) => {
-  try{
-    // console.log(request.body)
-    if (request.body.id === "admin"){
-      const buses = []
-      busModel.find().then((foundBuses)=>{
-         buses.push(...foundBuses) 
-         Promise.all([...buses]).then(()=>{
-          console.log(buses)
-          response.send({buses : buses})
-         })
-      } , (err)=>{
-        console.log('Error occured')
-        response.sendStatus(404)
-      })
-
-    }
-
-  }
-  catch(err){
-    console.log('ID not valid')
-    response.sendStatus(404)
-  }
-})
-
-app.post("/admin/getDataCricket" , async(request , response) => {
+app.post("/getBusTicket", async (request, response) => {
   try {
-
-    if (request.body.id === "admin"){
-      const cricket = []
-      matchesModel.find().then((foundCricket)=>{
-        cricket.push(...foundCricket)
-        Promise.all([...cricket]).then(()=>{
-          console.log(cricket)
-          response.send({cricket : cricket})
-        })
-      } , (err)=>{
-        console.log('Error occured')
-        response.sendStatus(404)
-      })
-      }
-
-  }
-  catch(err){
-    console.log('ID not valid')
-    response.sendStatus(404)
-  }
-})
-
-app.post("admin/create/cricket" , async(request,response) => {
-  if (request.body.id === "admin"){
-    receivedTicket = request.body.ticket
-    const ticket = new matchesModel({
-      team1 : receivedTicket.team1,
-      team2 : receivedTicket.team2,
-      time : receivedTicket.time,
-      date : receivedTicket.date,
-      venue : receivedTicket.venue,
-      city : receivedTicket.city
-    })
-
-    await ticket.save()
-
-    console.log('Ticket saved successfully')
-    response.sendStatus(200)
-  }
-  else{
-    response.send('Login as admin to perform the task')
-  }
-
-})
-
-app.post("admin/create/bus" , async(request,response) => {
-  if (request.body.id === "admin"){
-    receivedTicket = request.body.ticket
-    const bus = new busModel({
-      pickup : receivedTicket.pickup,
-      arrival : receivedTicket.arrival,
-      date : receivedTicket.date,
-      pickup_time : receivedTicket.pickup_time,
-      arrival_time : receivedTicket.arrival_time,
-      seats : receivedTicket.seats,
-      left : receivedTicket.seats,
-      price : receivedTicket.price
-    })
-
-    await bus.save()
-    console.log("Bus saved succesfully")
-    response.sendStatus(200)
-  }
-  else {
-    response.send('Login as admin to perform the task')
-  }
-})
-
-app.post("/signin/admin", async(request,response) => {
-  try{
     // console.log(request.body)
-    if (request.body.email === "admin"){
-      adminModel.find({
-        username : request.body.email,
-        password : request.body.Password
-      }).then((res)=>{
-        // console.log(res)
-        response.send(res[0])
-      }).catch((err)=>{
-        console.log(err)
+    // if (request.body.email === "admin") {
+    busModel
+      .find({
+        _id: request.body._id,
       })
-    }
-    else{
-      response.sendStatus(404)
+      .then((res) => {
+        // console.log(res)
+        console.log(res);
+        response.send(res[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // } else {
+    //   response.sendStatus(404);
+    // }
+  } catch (err) {
+    console.log("ID not valid");
+    response.sendStatus(404);
+  }
+});
+
+app.post("/admin/getDataBus", async (request, response) => {
+  let allAdmins = await adminModel.find();
+  // console.log(allAdmins);
+
+  for (let i = 0; i < allAdmins.length; i++) {
+    try {
+      if (request.body.id == allAdmins[i]._id.toString()) {
+        const buses = [];
+        busModel.find().then(
+          (foundBuses) => {
+            buses.push(...foundBuses);
+            Promise.all([...buses]).then(() => {
+              console.log(buses);
+              response.send({ buses: buses });
+            });
+          },
+          (err) => {
+            console.log("Error occured");
+            response.sendStatus(404);
+          }
+        );
+        break;
+      }
+    } catch (err) {
+      console.log("ID not valid");
+      response.sendStatus(404);
     }
   }
-  catch(err){
-    console.log('ID not valid')
-    response.sendStatus(404)
+});
+
+app.post("/getCricketTicket", async (request, response) => {
+  try {
+    const { _id } = request.body;
+
+    // Retrieve all matches
+    const allMatches = await matchesModel.find();
+    console.log("All Matches:", allMatches);
+
+    // Find a specific cricket ticket by ID
+    const foundCricket = await matchesModel.findById(_id);
+    console.log("Found Cricket Ticket:", foundCricket);
+
+    if (foundCricket) {
+      response.send(foundCricket);
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (err) {
+    console.log(err);
+    response.sendStatus(500);
   }
-})
+});
+
+app.post("/admin/getDataCricket", async (request, response) => {
+  let allAdmins = await adminModel.find();
+  // console.log(allAdmins);
+
+  for (let i = 0; i < allAdmins.length; i++) {
+    try {
+      console.log(request.body);
+      if (request.body.id == allAdmins[i]._id.toString()) {
+        const cricket = [];
+        matchesModel.find().then(
+          (foundCricket) => {
+            cricket.push(...foundCricket);
+            Promise.all([...cricket]).then(() => {
+              console.log(cricket);
+              response.send({ cricket: cricket });
+            });
+          },
+          (err) => {
+            console.log(err);
+            response.sendStatus(404);
+          }
+        );
+        break;
+      }
+    } catch (err) {
+      console.log("ID not valid");
+      response.sendStatus(404);
+    }
+  }
+});
+
+app.post("/admin/create/cricket", async (request, response) => {
+  try {
+    const allAdmins = await adminModel.find();
+    const adminId = request.body.id;
+
+    const isAdmin = allAdmins.some((admin) => admin._id.toString() === adminId);
+
+    if (!isAdmin) {
+      response.sendStatus(404);
+      return;
+    }
+
+    const receivedTicket = request.body.ticket;
+    const ticket = new matchesModel({
+      team1: receivedTicket.team1,
+      team2: receivedTicket.team2,
+      time: receivedTicket.time,
+      date: receivedTicket.date,
+      venue: receivedTicket.venue,
+      city: receivedTicket.city,
+    });
+
+    await ticket.save();
+
+    console.log("Ticket saved successfully");
+    response.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    response.sendStatus(500);
+  }
+});
+
+app.post("/admin/create/bus", async (request, response) => {
+  try {
+    const allAdmins = await adminModel.find();
+    const adminId = request.body.id;
+
+    const isAdmin = allAdmins.some((admin) => admin._id.toString() === adminId);
+
+    if (!isAdmin) {
+      response.sendStatus(404);
+      return;
+    }
+
+    const receivedTicket = request.body.ticket;
+    const bus = new busModel({
+      pickup: receivedTicket.pickup,
+      arrival: receivedTicket.arrival,
+      date: receivedTicket.date,
+      pickup_time: receivedTicket.pickup_time,
+      arrival_time: receivedTicket.arrival_time,
+      seats: receivedTicket.seats,
+      left: receivedTicket.seats,
+      price: receivedTicket.price,
+    });
+
+    await bus.save();
+
+    console.log("Ticket saved successfully");
+    response.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    response.sendStatus(500);
+  }
+});
+
+app.post("/admin/update/cricket", async (request, response) => {
+  console.log(request.body);
+
+  const allAdmins = await adminModel.find();
+  const adminId = request.body.admin;
+
+  const isAdmin = allAdmins.some((admin) => admin._id.toString() === adminId);
+
+  if (!isAdmin) {
+    response.sendStatus(404);
+    return;
+  }
+
+  const receivedTicket = request.body.ticket;
+  matchesModel
+    .findOneAndUpdate(
+      {
+        _id: request.body._id,
+      },
+      {
+        team1: receivedTicket.team1,
+        team2: receivedTicket.team2,
+        time: receivedTicket.time,
+        date: receivedTicket.date,
+        venue: receivedTicket.venue,
+        city: receivedTicket.city,
+      }
+    )
+    .then(
+      (res) => {
+        response.send(res);
+      },
+      (err) => {
+        response.sendStatus(404); //not found
+      }
+    );
+});
+
+app.post("/admin/update/bus", async (request, response) => {
+  console.log(request.body);
+
+  const allAdmins = await adminModel.find();
+  const adminId = request.body.admin;
+
+  const isAdmin = allAdmins.some((admin) => admin._id.toString() === adminId);
+
+  if (!isAdmin) {
+    response.sendStatus(404);
+    return;
+  }
+
+  const receivedTicket = request.body.ticket;
+  busModel
+    .findOneAndUpdate(
+      {
+        _id: request.body._id,
+      },
+      {
+        pickup: receivedTicket.pickup,
+        arrival: receivedTicket.arrival,
+        date: receivedTicket.date,
+        pickup_time: receivedTicket.pickup_time,
+        arrival_time: receivedTicket.arrival_time,
+        seats: receivedTicket.seats,
+        price: receivedTicket.price,
+      }
+    )
+    .then(
+      (res) => {
+        response.send(res);
+      },
+      (err) => {
+        response.sendStatus(404); //not found
+      }
+    );
+});
+
+app.post("/signin/admin", async (request, response) => {
+  try {
+    // console.log(request.body)
+    if (request.body.email === "admin") {
+      adminModel
+        .find({
+          username: request.body.email,
+          password: request.body.Password,
+        })
+        .then((res) => {
+          // console.log(res)
+          response.send(res[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      response.sendStatus(404);
+    }
+  } catch (err) {
+    console.log("ID not valid");
+    response.sendStatus(404);
+  }
+});
+
+app.post("/getAdmin", async (request, response) => {
+  try {
+    // console.log(request.body)
+    // if (request.body.email === "admin") {
+    adminModel
+      .find({
+        _id: request.body._id,
+      })
+      .then((res) => {
+        // console.log(res)
+        console.log(res);
+        response.send(res[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // } else {
+    //   response.sendStatus(404);
+    // }
+  } catch (err) {
+    console.log("ID not valid");
+    response.sendStatus(404);
+  }
+});
+
+app.post("/admin/update", async (req, res) => {
+  console.log(req.body);
+  adminModel
+    .findOneAndUpdate(
+      {
+        _id: req.body._id,
+      },
+      {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        username: req.body.email,
+        Password: req.body.Password,
+      }
+    )
+    .then(
+      (response) => {
+        res.send(response);
+      },
+      (err) => {
+        res.sendStatus(404); //not found
+      }
+    );
+});
+
 app.listen(5001, () => {
   console.log(`Listening to port 5001`);
 });

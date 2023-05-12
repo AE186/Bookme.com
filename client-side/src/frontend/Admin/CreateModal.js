@@ -4,9 +4,14 @@ import "../Home/Home.css";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-export default function CreateModal({ event, show, setShow }) {
+export default function CreateModal({
+  event,
+  show,
+  setShow,
+  change,
+  setChange,
+}) {
   const [cricket, setCricket] = useState({
-    key: 0,
     team1: "",
     team2: "",
     time: "",
@@ -16,32 +21,19 @@ export default function CreateModal({ event, show, setShow }) {
   });
 
   const [bus, setBus] = useState({
-    key: 0,
     pickup: "",
     arrival: "",
     date: "",
     pickup_time: "",
     arrival_time: "",
+    seats: 0,
     price: 0,
   });
-  const cookies = useCookies(["admin"]);
+  const [cookies] = useCookies(["admin"]);
+
   function handleClose() {
     setShow(false);
   }
-
-  //   {
-  //       key: 2,
-  //       team1: "Pakistan",
-  //       team2: "New Zealand",
-  //       team1_img:
-  //         "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-  //       team2_img:
-  //         "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-  //       time: "3:30 PM",
-  //       date: "05-05-2023",
-  //       venue: "National Bank Stadium",
-  //       city: "Karachi",
-  //     },
 
   function handleCricket(e) {
     setCricket((prevState) => ({
@@ -57,47 +49,70 @@ export default function CreateModal({ event, show, setShow }) {
     }));
   }
 
-  // API call for Creating of ticket
-
-  useEffect(() => {
-    if (event === "cricket"){
+  function handleCreate() {
+    if (event === "cricket") {
       //API for adding ticket to matches database
-      if(cricket){
-      axios.post("/admin/create/cricket" , {
-        ticket : cricket,
-        id : cookies.admin.username
-      }).then((response) => {
-        console.log('Created successFully')
-        setShow(true)
-      }).catch((error) => {
-        console.log('An error occured while entering into the cricket database')
+      if (
+        cricket.team1.length !== 0 ||
+        cricket.team2.length !== 0 ||
+        cricket.time.length !== 0 ||
+        cricket.date.length !== 0 ||
+        cricket.venue.length !== 0 ||
+        cricket.city.length !== 0
+      ) {
+        console.log(cricket);
+        axios
+          .post("http://localhost:5001/admin/create/cricket", {
+            ticket: cricket,
+            id: cookies.admin,
+          })
+          .then((response) => {
+            console.log("Created successFully");
+            setChange(change ? false : true);
+            setShow(false);
+          })
+          .catch((error) => {
+            alert(error);
+            console.log(
+              "An error occured while entering into the cricket database"
+            );
+          });
+      } else {
+        alert("Please fill all the fields");
       }
-      )
-      }
-      else{
-        console.alert('Please fill all the fields')
-      }
-    }
-    else if (event === "bus"){
+    } else if (event === "bus") {
       // API for adding ticket to buses database
-      if(bus){
-        axios.post("/admin/create/bus" , {
-          ticket : bus,
-          id : cookies.admin.username
-        }).then(response => {
-          console.log('Created successFully')
-          setShow(true)
-        }).catch(error => {
-          console.log('An error occured while entering into the bus database')
-        })
-
-      }
-      else{
-        console.alert('Please fill all the fields')
+      console.log(bus);
+      if (
+        bus.pickup.length !== 0 ||
+        bus.arrival.length !== 0 ||
+        bus.pickup_time.length !== 0 ||
+        bus.arrival_time.length !== 0 ||
+        bus.seats.length !== 0 ||
+        bus.price.length !== 0 ||
+        bus.date.length !== 0
+      ) {
+        axios
+          .post("http://localhost:5001/admin/create/bus", {
+            ticket: bus,
+            id: cookies.admin,
+          })
+          .then((response) => {
+            console.log("Created successFully");
+            setChange(change ? false : true);
+            setShow(false);
+          })
+          .catch((error) => {
+            alert(error);
+            console.log(
+              "An error occured while entering into the cricket database"
+            );
+          });
+      } else {
+        alert("Please fill all the fields");
       }
     }
-  }, []);
-  function handleCreate() {}
+  }
 
   return (
     <div
@@ -216,6 +231,15 @@ export default function CreateModal({ event, show, setShow }) {
                     value={bus.arrival_time}
                   />
                 </div>
+              </div>
+              <div className="admin-create-inp">
+                Seats:
+                <input
+                  type="number"
+                  name="seats"
+                  onChange={handleBus}
+                  value={bus.seats}
+                />
               </div>
               <div className="admin-create-inp">
                 Price:

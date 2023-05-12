@@ -8,13 +8,26 @@ export default function BusTicket({
   isupdate,
   setModal,
 }) {
+  const [hourString, minute] = info.pickup_time.split(":");
+  const hour = +hourString % 24;
+  const pickup = (hour % 12 || 12) + ":" + minute + (hour < 12 ? " AM" : " PM");
+
+  const [hourString1, minute1] = info.arrival_time.split(":");
+  const hour1 = +hourString1 % 24;
+  const arrival =
+    (hour1 % 12 || 12) + ":" + minute1 + (hour1 < 12 ? " AM" : " PM");
+
+  const arrivaltime = new Date(info.arrival_time);
+
   function handleBook() {
     if (isupdate) {
       // console.log(modal.key);
-      setModal({
-        key: info.key,
+      console.log("info", info);
+      setModal((prevState) => ({
+        ...prevState,
+        key: info._id,
         show: true,
-      });
+      }));
     } else if (!isticket) {
       setShow(true);
       setTicket((prevState) => ({
@@ -45,7 +58,7 @@ export default function BusTicket({
         </div>
 
         <div className="bus-ticket-time">
-          {info.pickup_time} - {info.arrival_time}
+          {pickup} - {arrival}
         </div>
       </div>
 

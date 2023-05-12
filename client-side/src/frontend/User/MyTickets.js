@@ -164,6 +164,7 @@ export default function MyTickets() {
               <CricketTicket
                 info={item}
                 isticket={true}
+                isupdate={false}
                 setModal={setModal}
               />
             );

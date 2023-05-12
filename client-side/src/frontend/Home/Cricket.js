@@ -130,6 +130,7 @@ export default function Cricket() {
                 setTicket={setTicket}
                 setShow={setShow}
                 isticket={false}
+                isupdate={false}
               />
             );
           })}
