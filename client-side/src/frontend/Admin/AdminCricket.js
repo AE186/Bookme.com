@@ -8,7 +8,7 @@ export default function AdminCricket() {
   const [input, setInput] = useState({
     date: "",
   });
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [modal, setModal] = useState({
     key: 0,
     show: false,

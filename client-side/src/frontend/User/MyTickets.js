@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+
 import "../Home/Home.css";
 import "./User.css";
 import BusTicket from "../Home/BusTicket";
@@ -14,44 +15,93 @@ export default function MyTickets() {
     key: 0,
     show: false,
   });
-
+  const [myCricketTickets, setMyCricketTickets] = useState([]);
+  const [myBusTickets, setMyBusTickets] = useState([]);
 
   //API route to get tickets of user
-  axios.get(`http://localhost:5001/user/ticket/${cookies.user}`).then((response) => {
-      console.log(response.data)
-  } , (error) => {
-    console.log(error);
-  })
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5001/user/ticket/${cookies.user}`)
+      .then((res) => {
+        console.log(res);
 
-  var myCricketTickets = [
-    {
-      key: 3,
-      team1: "Pakistan",
-      team2: "New Zealand",
-      team1_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-      team2_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-      time: "3:30 PM",
-      date: "05-05-2023",
-      venue: "National Bank Stadium",
-      city: "Karachi",
-    },
-  ];
+        // Process and set cricket tickets
+        let cricket = [];
+        for (let i = 0; i < res.data.cricketTickets.length; i++) {
+          const item = res.data.cricketTickets[i];
+          const temp = {
+            key: item._id,
+            team1: item.team1,
+            team2: item.team2,
+            team1_img:
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+            team2_img:
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
+            time: item.time,
+            date: item.Date,
+            venue: item.venue,
+            city: item.city,
+          };
+          cricket.push(temp);
+        }
+        setMyCricketTickets(cricket);
 
-  var myBusTickets = [
-    {
-      key: 69420,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-  ];
+        // Process and set bus tickets
+        let bus = [];
+        for (let i = 0; i < res.data.busTickets.length; i++) {
+          const item = res.data.busTickets[i];
+          const temp = {
+            key: item._id,
+            pickup: item.pickup,
+            arrival: item.arrival,
+            date: item.date,
+            pickup_time: item.pickup_time,
+            arrival_time: item.arrival_time,
+            seats: item.seats,
+            left: item.left,
+            price: item.price,
+          };
+          bus.push(temp);
+        }
+        setMyBusTickets(bus);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  // var myCricketTickets = [
+  //   {
+  //     key: 3,
+  //     team1: "Pakistan",
+  //     team2: "New Zealand",
+  //     team1_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+  //     team2_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
+  //     time: "3:30 PM",
+  //     date: "05-05-2023",
+  //     venue: "National Bank Stadium",
+  //     city: "Karachi",
+  //   },
+  // ];
+
+  // var myBusTickets = [
+  //   {
+  //     key: 69420,
+  //     pickup: "Karachi",
+  //     arrival: "Lahore",
+  //     date: "05-10-2023",
+  //     pickup_time: "10:00 AM",
+  //     arrival_time: "03:45 PM",
+  //     seats: 50,
+  //     left: 33,
+  //     price: 7999,
+  //   },
+  // ];
+
+  console.log(myBusTickets);
+  console.log(myCricketTickets);
 
   function handleClick(e) {
     setEvent(e.target.id);
@@ -93,7 +143,10 @@ export default function MyTickets() {
           marginBottom: "15px",
         }}
       ></div>
-      <div className="result-box tickets">
+      <div
+        className="result-box tickets"
+        style={{ display: "flex", flexDirection: "column" }}
+      >
         {event === "bus" &&
           myBusTickets.map((item) => {
             return (
