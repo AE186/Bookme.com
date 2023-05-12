@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-<<<<<<< HEAD
-
-=======
->>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
 import "./Home.css";
 import BusTicket from "./BusTicket";
 import BusModal from "./BusModal";
@@ -12,24 +8,15 @@ import BusModal from "./BusModal";
 
 
 export default function Bus() {
-<<<<<<< HEAD
-  const [cookies] = useCookies(["user"]);
-=======
   const [cookies] = useCookies(["user"])
 
->>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
 
   const [search, setSearch] = useState({ pickup: "", arrival: "", date: "" });
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
     key: 0,
-<<<<<<< HEAD
-    _id: cookies.user,
-    event: "bus",
-=======
     _id:cookies.user,
     type: "bus",
->>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
     pickup: "",
     arrival: "",
     date: "",

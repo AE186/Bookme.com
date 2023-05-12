@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
-<<<<<<< HEAD
-
-=======
->>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
 import "./Home.css";
 import CricketTicket from "./CricketTicket";
 import CricketModal from "./CricketModal";
@@ -11,20 +7,12 @@ import CricketModal from "./CricketModal";
 export default function Cricket() {
   const [cookies] = useCookies(["user"]);
 
-<<<<<<< HEAD
-  const [show, setShow] = useState(false);
-  const [ticket, setTicket] = useState({
-    key: 0,
-    _id: cookies.user,
-    event: "cricket",
-=======
 
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
     key: 0,
     _id : cookies.user,
     type : "cricket",
->>>>>>> b4f3eb070716fcddad096c4f0b9585502af38ecb
     team1: "",
     team2: "",
     team1_img: "",
