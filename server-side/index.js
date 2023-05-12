@@ -55,7 +55,7 @@ app.post("/signup", async (req, res) => {
         html: `<h1>Email Confirmation</h1>
         <h2>Hello ${fname}</h2>
         <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:5001/confirm/${token}> Click here</a>
+        <a href=http://localhost:3000/confirm/${token}> Click here</a>
         </div>`,
       })
       .catch((err) => console.log(`Could not send email`));
@@ -331,6 +331,51 @@ app.get("/confirm/:confirmationCode", async (req, res) => {
   }
 });
 
+app.post("/admin/getDataBus", async(request,response) => {
+  try{
+    console.log(request.body)
+    if (request.body.id === "admin"){
+      const buses = []
+      busModel.find().then((foundBuses)=>{
+         buses.push(foundBuses)
+         Promise.all([...buses]).then(()=>{
+          response.send({buses : buses})
+         })
+      } , (err)=>{
+        console.log('Error occured')
+      })
+
+    }
+
+  }
+  catch(err){
+    console.log('ID not valid')
+    response.sendStatus(404)
+  }
+})
+app.post("/signin/admin", async(request,response) => {
+  try{
+    console.log(request.body)
+    if (request.body.email === "admin"){
+      adminModel.find({
+        username : request.body.email,
+        password : request.body.Password
+      }).then((res)=>{
+        console.log(res)
+        response.send(res[0])
+      }).catch((err)=>{
+        console.log(err)
+      })
+    }
+    else{
+      response.sendStatus(404)
+    }
+  }
+  catch(err){
+    console.log('ID not valid')
+    response.sendStatus(404)
+  }
+})
 app.listen(5001, () => {
   console.log(`Listening to port 5001`);
 });

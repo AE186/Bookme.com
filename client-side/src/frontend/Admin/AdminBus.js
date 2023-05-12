@@ -9,6 +9,7 @@ export default function AdminBus() {
   const [input, setInput] = useState({
     date: "",
   });
+  const [cookies] = useCookies(["admin"])
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState({
     key: 0,

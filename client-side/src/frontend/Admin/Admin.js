@@ -9,14 +9,16 @@ import AdminBus from "./AdminBus";
 import AdminCricket from "./AdminCricket";
 
 export default function Admin() {
+  const [cookies] = useCookies(["admin"]);
+
+
   const [admin, setAdmin] = useState({
-    fname: "",
-    lname: "",
-    email: "",
+    fname: cookies.admin.fname,
+    lname: cookies.admin.lname,
+    email: cookies.admin.username,
   });
   const [state, setState] = useState("cricket");
 
-  const [cookies] = useCookies(["admin"]);
   const navigate = useNavigate();
 
   if (cookies.admin === undefined) {
