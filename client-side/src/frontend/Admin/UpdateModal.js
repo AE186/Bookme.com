@@ -24,6 +24,9 @@ export default function UpdateModal({ event, modal, setModal }) {
     price: 0,
   });
 
+  // API cal for getting tickets info using modal.key
+  // useEffect(() => {}, []);
+
   function handleClose() {
     setModal({
       key: 0,

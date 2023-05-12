@@ -75,7 +75,7 @@ export default function AdminBus() {
         event={"bus"}
       />
       <UpdateModal
-        event={"cricket"}
+        event={"bus"}
         modal={modal}
         setModal={setModal}
       />
