@@ -15,9 +15,6 @@ export default function AdminBus() {
     show: false,
   });
 
-  // API cal for getting tickets info using modal.key
-  // useEffect(() => {}, []);
-
   var result = [
     {
       key: 42069,
@@ -62,7 +59,7 @@ export default function AdminBus() {
         event={"bus"}
       />
       <UpdateModal
-        event={"cricket"}
+        event={"bus"}
         modal={modal}
         setModal={setModal}
       />

@@ -34,6 +34,7 @@ export default function Setting({ user, setUser, isAdmin }) {
       return;
     }
 
+    // Update Admin API Call
     if (isAdmin) {
       console.log(input);
     } else {

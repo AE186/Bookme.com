@@ -95,7 +95,7 @@ export default function AdminCricket() {
             className="admin-inp admin-btn"
             onClick={handleCreate}
           >
-            Update
+            Create
           </button>
         </div>
         <div className="admin-results">
