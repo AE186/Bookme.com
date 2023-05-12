@@ -1,17 +1,27 @@
 import { useState } from "react";
-
+import { useCookies } from "react-cookie";
 import "../Home/Home.css";
 import "./User.css";
 import BusTicket from "../Home/BusTicket";
 import CricketTicket from "../Home/CricketTicket";
 import QRModal from "./QRModal";
+import axios from "axios";
 
 export default function MyTickets() {
+  const [cookies] = useCookies(["user"]);
   const [event, setEvent] = useState("bus");
   const [modal, setModal] = useState({
     key: 0,
     show: false,
   });
+
+
+  //API route to get tickets of user
+  axios.get(`http://localhost:5001/user/ticket/${cookies.user}`).then((response) => {
+      console.log(response.data)
+  } , (error) => {
+    console.log(error);
+  })
 
   var myCricketTickets = [
     {

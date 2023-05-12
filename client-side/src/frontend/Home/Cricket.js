@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-
 import "./Home.css";
 import axios from "axios";
 import CricketTicket from "./CricketTicket";

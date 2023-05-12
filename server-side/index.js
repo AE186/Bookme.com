@@ -151,9 +151,10 @@ app.post("/user", async (req, res) => {
 
 app.post("/payment" , async(req,res) => {
 
-  console.log(req.body.ticket.key)
+  console.log(req.body.ticket)
   if (req.body.ticket.type === "bus") {
     busModel.findOne({ _id: req.body.ticket.key }).then((foundBus) => {
+      console.log(foundBus)
       foundBus.left = foundBus.left - req.body.ticket.tickets;
       // foundBus.save();
       customerModel.findOne({_id : req.body.ticket._id}).then((foundCustomer) => {
@@ -218,6 +219,77 @@ app.post("/payment" , async(req,res) => {
       console.log('Enclosure not found')
       res.sendStatus(404)
     })
+  }
+})
+
+app.get("/user/ticket/:id" , async(request,response) => {
+  try {
+    customerModel.findOne({_id : request.params.id}).then((foundCustomer) => {
+      const busTickets = [];
+      const cricketTickets = [];
+    
+      const busPromises = foundCustomer.busTicket.map((busId) => {
+        return busModel.findOne({_id: busId}).then((foundBus) => {
+          console.log(`Found Bus ticket is\n`);
+          console.log(foundBus);
+          busTickets.push(foundBus);
+        });
+      });
+    
+      const cricketPromises = foundCustomer.cricketTicket.map((cricketId) => {
+        return cricketTicketModel.findOne({_id: cricketId}).then((foundCricket) => {
+          console.log(`Found Cricket ticket is\n`);
+          console.log(foundCricket);
+          cricketTickets.push(foundCricket);
+        });
+      });
+    
+      Promise.all([...busPromises, ...cricketPromises]).then(() => {
+        response.send({busTickets: busTickets, cricketTickets: cricketTickets});
+      }).catch((err) => {
+        console.log(err);
+        response.sendStatus(404);
+      });
+    
+    }).catch((err) => {
+      console.log('Error in finding the customer');
+      console.log(request.params.id);
+      response.sendStatus(404);
+    });
+    
+    // customerModel.findOne({_id : request.params.id}).then((foundCustomer) => {
+    //   const busTickets = [];
+    //   const cricketTickets = [];
+    //   for (let i =0 ; i<foundCustomer.busTicket.length ; i++){
+    //     busModel.findOne({_id : foundCustomer.busTicket[i]}).then((foundBus) => {
+    //       console.log(`Found Bus ticket is\n`)
+    //       console.log(foundBus)
+    //       busTickets.push(foundBus)
+    //     } , (err) => {
+    //       console.log(err)
+    //     })
+    //   }
+    //   for (let i = 0 ; i<foundCustomer.cricketTicket.length ; i++){
+    //     cricketTicketModel.findOne({_id : foundCustomer.cricketTicket[i]}).then((foundCricket) => {
+    //       console.log(`Found Cricket ticket is\n`)
+    //       console.log(foundCricket)
+    //       cricketTickets.push(foundCricket)
+    //     } , (err) => {
+    //       console.log(err)
+    //     });
+    //   }
+    //   // console.log(busTickets)
+    //   // console.log(cricketTickets)
+    //   response.send({busTickets : [busTickets] , cricketTickets : [cricketTickets]})
+    // } , (err) => {
+    //   console.log('Error in finding the customer')
+    //   console.log(request.params.id)
+    //   response.sendStatus(404)
+    // })
+  }
+  catch(err) {
+    console.log(err)
+    response.sendStatus(404)
   }
 })
 
