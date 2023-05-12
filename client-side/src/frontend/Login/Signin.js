@@ -61,6 +61,7 @@ export default function Signin() {
         />
         <input
           className="login-ele inp"
+          id="Email"
           name="Email"
           placeholder="Email"
           value={user.Email}
@@ -70,6 +71,7 @@ export default function Signin() {
         />
         <input
           className="login-ele inp"
+          id="Password"
           name="Password"
           placeholder="Password"
           value={user.Password}
@@ -81,6 +83,7 @@ export default function Signin() {
           <div className="danger">Wrong Password or Email entered</div>
         </div>
         <button
+          id="login"
           className="login-ele btn"
           onClick={handleSubmit}
         >

@@ -9,7 +9,13 @@ export default function BusTicket({
   setModal,
 }) {
   function handleBook() {
-    if (!isticket) {
+    if (isupdate) {
+      // console.log(modal.key);
+      setModal({
+        key: info.key,
+        show: true,
+      });
+    } else if (!isticket) {
       setShow(true);
       setTicket((prevState) => ({
         ...prevState,

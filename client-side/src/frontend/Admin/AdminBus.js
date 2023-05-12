@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Admin.css";
 import BusTicket from "../Home/BusTicket";
 import CreateModal from "./CreateModal";
+import UpdateModal from "./UpdateModal";
 
 export default function AdminBus() {
   const [input, setInput] = useState({
@@ -13,6 +14,9 @@ export default function AdminBus() {
     key: 0,
     show: false,
   });
+
+  // API cal for getting tickets info using modal.key
+  // useEffect(() => {}, []);
 
   var result = [
     {
@@ -57,6 +61,11 @@ export default function AdminBus() {
         setShow={setShow}
         event={"bus"}
       />
+      <UpdateModal
+        event={"cricket"}
+        modal={modal}
+        setModal={setModal}
+      />
       <div className="admin-title">Bus Tickets</div>
       <div className="admin-body">
         <div className="admin-search">
@@ -80,8 +89,8 @@ export default function AdminBus() {
             return (
               <BusTicket
                 info={item}
-                isupdate={true}
                 isticket={false}
+                isupdate={true}
                 setModal={setModal}
               />
             );

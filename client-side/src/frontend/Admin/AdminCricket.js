@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./Admin.css";
 import CricketTicket from "../Home/CricketTicket";
 import CreateModal from "./CreateModal";
+import UpdateModal from "./UpdateModal";
 
 export default function AdminCricket() {
   const [input, setInput] = useState({
@@ -74,6 +75,11 @@ export default function AdminCricket() {
         setShow={setShow}
         event={"cricket"}
       />
+      <UpdateModal
+        event={"cricket"}
+        modal={modal}
+        setModal={setModal}
+      />
       <div className="admin-title">Cricket Tickets</div>
       <div className="admin-body">
         <div className="admin-search">
@@ -89,7 +95,7 @@ export default function AdminCricket() {
             className="admin-inp admin-btn"
             onClick={handleCreate}
           >
-            Create
+            Update
           </button>
         </div>
         <div className="admin-results">

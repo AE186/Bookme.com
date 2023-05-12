@@ -1,3 +1,8 @@
+import { useState } from "react";
+
+import "./Admin.css";
+import "../Home/Home.css";
+
 export default function UpdateModal({ event, modal, setModal }) {
   const [cricket, setCricket] = useState({
     key: 0,
@@ -174,9 +179,9 @@ export default function UpdateModal({ event, modal, setModal }) {
           )}
           <button
             className="admin-create-btn"
-            onClick={handleCreate}
+            onClick={handleUpdate}
           >
-            Create
+            Update
           </button>
         </div>
 
