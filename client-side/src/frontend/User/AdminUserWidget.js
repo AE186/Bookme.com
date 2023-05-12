@@ -13,30 +13,30 @@ export default function AdminUserWidget({ user, setUser, setState }) {
   const [cookies, setCookies, removeCookies] = useCookies(["admin"]);
   //   console.log(cookies);
 
-  useEffect(() => {
-    setUser({
-      fname: "Admin",
-      lname: "Admin",
-      email: "Admin",
-    });
+  // useEffect(() => {
+  //   setUser({
+  //     fname: "Admin",
+  //     lname: "Admin",
+  //     email: "Admin",
+  //   });
 
-    //     axios
-    //       .post("http://localhost:5001/user", {
-    //         _id: cookies.user,
-    //       })
-    //       .then((res) => {
-    //         console.log(res);
-    //         if (res.data[0] && "_id" in res.data[0]) {
-    //           setUser({
-    //             fname: res.data[0].fname,
-    //             lname: res.data[0].lname,
-    //             email: res.data[0].email,
-    //           });
-    //         } else {
-    //           removeCookies("user");
-    //         }
-    //       });
-  }, []);
+  //   //     axios
+  //   //       .post("http://localhost:5001/user", {
+  //   //         _id: cookies.user,
+  //   //       })
+  //   //       .then((res) => {
+  //   //         console.log(res);
+  //   //         if (res.data[0] && "_id" in res.data[0]) {
+  //   //           setUser({
+  //   //             fname: res.data[0].fname,
+  //   //             lname: res.data[0].lname,
+  //   //             email: res.data[0].email,
+  //   //           });
+  //   //         } else {
+  //   //           removeCookies("user");
+  //   //         }
+  //   //       });
+  // }, []);
 
   // function handleMouseEnter() {
   //   setShow(true);

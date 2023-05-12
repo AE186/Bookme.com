@@ -15,13 +15,33 @@ export default function Signin() {
   const navigate = useNavigate();
 
   function handleSubmit() {
+
     if (user.Email === "admin" && user.Password === "admin") {
-      setCookies("admin", "admin", {
-        maxAge: 60 * 60 * 24,
-        path: "/",
-      });
-      navigate("/admin");
-      return;
+      axios.post('http://localhost:5001/signin/admin' , {
+        email : user.Email,
+        Password: user.Password
+      }).then((response) => {
+        if(response.data && "_id" in response.data){
+          setCookies("admin",{
+            ...response.data
+          },{
+            maxAge : 60 * 60 *24,
+            path : "/"
+          })
+          navigate("/admin")
+          return;
+        }
+      } , (err)=>{
+        document.getElementsByClassName("danger")[0].style.display = "Block";
+
+        
+      })
+      // setCookies("admin", "admin", {
+      //   maxAge: 60 * 60 * 24,
+      //   path: "/",
+      // });
+      // navigate("/admin");
+      // return;
     }
 
     axios

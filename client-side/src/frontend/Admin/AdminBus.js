@@ -1,19 +1,30 @@
 import { useState } from "react";
-
+import { useCookies } from "react-cookie";
 import "./Admin.css";
 import BusTicket from "../Home/BusTicket";
 import CreateModal from "./CreateModal";
-
+import axios from 'axios'
 export default function AdminBus() {
   const [input, setInput] = useState({
     date: "",
   });
+  const [cookies] = useCookies(["admin"])
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState({
     key: 0,
     show: false,
   });
 
+  //API to get data from the backend
+
+  axios.post("http://localhost:5001/admin/getDataBus",{
+    id : "admin"
+  }).then((response) => {
+    console.log(response.data)
+  } , (err) => {
+    console.log(err)
+    console.log('Data not received')
+  })
   var result = [
     {
       key: 42069,
