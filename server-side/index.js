@@ -258,7 +258,7 @@ app.post("/payment", async (req, res) => {
 
 app.get("/user/ticket/:id", async (request, response) => {
   try {
-    customerModel
+    matchesModel
       .findOne({ _id: request.params.id })
       .then((foundCustomer) => {
         const busTickets = [];
