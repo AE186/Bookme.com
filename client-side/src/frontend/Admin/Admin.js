@@ -17,7 +17,7 @@ export default function Admin() {
     lname: cookies.admin.lname,
     email: cookies.admin.username,
   });
-  const [state, setState] = useState("setting");
+  const [state, setState] = useState("cricket");
 
   const navigate = useNavigate();
 

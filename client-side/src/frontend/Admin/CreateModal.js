@@ -56,6 +56,7 @@ export default function CreateModal({ event, show, setShow }) {
     }));
   }
 
+  // API call for Creating of ticket
   function handleCreate() {}
 
   return (

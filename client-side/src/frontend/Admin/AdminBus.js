@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
+
 import "./Admin.css";
 import BusTicket from "../Home/BusTicket";
 import CreateModal from "./CreateModal";
-import axios from 'axios'
+import UpdateModal from "./UpdateModal";
+
 export default function AdminBus() {
   const [input, setInput] = useState({
     date: "",
@@ -15,16 +16,9 @@ export default function AdminBus() {
     show: false,
   });
 
-  //API to get data from the backend
+  // API cal for getting tickets info using modal.key
+  // useEffect(() => {}, []);
 
-  axios.post("http://localhost:5001/admin/getDataBus",{
-    id : "admin"
-  }).then((response) => {
-    console.log(response.data)
-  } , (err) => {
-    console.log(err)
-    console.log('Data not received')
-  })
   var result = [
     {
       key: 42069,
@@ -68,6 +62,11 @@ export default function AdminBus() {
         setShow={setShow}
         event={"bus"}
       />
+      <UpdateModal
+        event={"cricket"}
+        modal={modal}
+        setModal={setModal}
+      />
       <div className="admin-title">Bus Tickets</div>
       <div className="admin-body">
         <div className="admin-search">
@@ -91,8 +90,8 @@ export default function AdminBus() {
             return (
               <BusTicket
                 info={item}
-                isupdate={true}
                 isticket={false}
+                isupdate={true}
                 setModal={setModal}
               />
             );
