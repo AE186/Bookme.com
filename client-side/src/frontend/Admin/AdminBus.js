@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
 
 import "./Admin.css";
 import BusTicket from "../Home/BusTicket";
@@ -10,7 +9,7 @@ export default function AdminBus() {
   const [input, setInput] = useState({
     date: "",
   });
-  const [cookies] = useCookies(["admin"]);
+  const [cookies] = useCookies(["admin"])
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState({
     key: 0,
