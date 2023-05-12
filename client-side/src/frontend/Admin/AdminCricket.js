@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Admin.css";
 import CricketTicket from "../Home/CricketTicket";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
+import axios from "axios";
 
 export default function AdminCricket() {
   const [input, setInput] = useState({
@@ -14,7 +15,17 @@ export default function AdminCricket() {
     key: 0,
     show: false,
   });
-
+  //API call for getting cricket Tickets info from the db
+  useEffect(() => {
+    axios.post("http://localhost:5001/admin/getDataCricket", {
+      id: "admin",
+      }).then((response) => {
+        console.log(response) //response.data is the array of the cricket tickets received from the database")
+      }).catch((error) => {
+        console.log(error)
+      }
+    )
+  }, []);
   var result = [
     {
       key: 1,

@@ -11,6 +11,7 @@ const busModel = require("./Model/buses.js");
 const matchesModel = require("./Model/matches.js");
 const enclosureModel = require("./Model/enclosure.js");
 const cricketTicketModel = require("./Model/cricketTicket.js");
+const adminModel = require("./Model/admin.js");
 // const ticketModel = require("./Model/cricketTicket.js");
 
 const nodemailer = require("nodemailer");
@@ -331,18 +332,22 @@ app.get("/confirm/:confirmationCode", async (req, res) => {
   }
 });
 
+
+
 app.post("/admin/getDataBus", async(request,response) => {
   try{
-    console.log(request.body)
+    // console.log(request.body)
     if (request.body.id === "admin"){
       const buses = []
       busModel.find().then((foundBuses)=>{
-         buses.push(foundBuses)
+         buses.push(...foundBuses) 
          Promise.all([...buses]).then(()=>{
+          console.log(buses)
           response.send({buses : buses})
          })
       } , (err)=>{
         console.log('Error occured')
+        response.sendStatus(404)
       })
 
     }
@@ -353,15 +358,40 @@ app.post("/admin/getDataBus", async(request,response) => {
     response.sendStatus(404)
   }
 })
+
+app.post("/admin/getDataCricket" , async(request , response) => {
+  try {
+
+    if (request.body.id === "admin"){
+      const cricket = []
+      matchesModel.find().then((foundCricket)=>{
+        cricket.push(...foundCricket)
+        Promise.all([...cricket]).then(()=>{
+          console.log(cricket)
+          response.send({cricket : cricket})
+        })
+      } , (err)=>{
+        console.log('Error occured')
+        response.sendStatus(404)
+      })
+      }
+
+  }
+  catch(err){
+    console.log('ID not valid')
+    response.sendStatus(404)
+  }
+})
+
 app.post("/signin/admin", async(request,response) => {
   try{
-    console.log(request.body)
+    // console.log(request.body)
     if (request.body.email === "admin"){
       adminModel.find({
         username : request.body.email,
         password : request.body.Password
       }).then((res)=>{
-        console.log(res)
+        // console.log(res)
         response.send(res[0])
       }).catch((err)=>{
         console.log(err)
