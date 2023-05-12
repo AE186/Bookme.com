@@ -383,6 +383,52 @@ app.post("/admin/getDataCricket" , async(request , response) => {
   }
 })
 
+app.post("admin/create/cricket" , async(request,response) => {
+  if (request.body.id === "admin"){
+    receivedTicket = request.body.ticket
+    const ticket = new matchesModel({
+      team1 : receivedTicket.team1,
+      team2 : receivedTicket.team2,
+      time : receivedTicket.time,
+      date : receivedTicket.date,
+      venue : receivedTicket.venue,
+      city : receivedTicket.city
+    })
+
+    await ticket.save()
+
+    console.log('Ticket saved successfully')
+    response.sendStatus(200)
+  }
+  else{
+    response.send('Login as admin to perform the task')
+  }
+
+})
+
+app.post("admin/create/bus" , async(request,response) => {
+  if (request.body.id === "admin"){
+    receivedTicket = request.body.ticket
+    const bus = new busModel({
+      pickup : receivedTicket.pickup,
+      arrival : receivedTicket.arrival,
+      date : receivedTicket.date,
+      pickup_time : receivedTicket.pickup_time,
+      arrival_time : receivedTicket.arrival_time,
+      seats : receivedTicket.seats,
+      left : receivedTicket.seats,
+      price : receivedTicket.price
+    })
+
+    await bus.save()
+    console.log("Bus saved succesfully")
+    response.sendStatus(200)
+  }
+  else {
+    response.send('Login as admin to perform the task')
+  }
+})
+
 app.post("/signin/admin", async(request,response) => {
   try{
     // console.log(request.body)

@@ -1,7 +1,8 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import "./Admin.css";
 import "../Home/Home.css";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 export default function CreateModal({ event, show, setShow }) {
   const [cricket, setCricket] = useState({
@@ -23,7 +24,7 @@ export default function CreateModal({ event, show, setShow }) {
     arrival_time: "",
     price: 0,
   });
-
+  const cookies = useCookies(["admin"]);
   function handleClose() {
     setShow(false);
   }
@@ -57,6 +58,45 @@ export default function CreateModal({ event, show, setShow }) {
   }
 
   // API call for Creating of ticket
+
+  useEffect(() => {
+    if (event === "cricket"){
+      //API for adding ticket to matches database
+      if(cricket){
+      axios.post("/admin/create/cricket" , {
+        ticket : cricket,
+        id : cookies.admin.username
+      }).then((response) => {
+        console.log('Created successFully')
+        setShow(true)
+      }).catch((error) => {
+        console.log('An error occured while entering into the cricket database')
+      }
+      )
+      }
+      else{
+        console.alert('Please fill all the fields')
+      }
+    }
+    else if (event === "bus"){
+      // API for adding ticket to buses database
+      if(bus){
+        axios.post("/admin/create/bus" , {
+          ticket : bus,
+          id : cookies.admin.username
+        }).then(response => {
+          console.log('Created successFully')
+          setShow(true)
+        }).catch(error => {
+          console.log('An error occured while entering into the bus database')
+        })
+
+      }
+      else{
+        console.alert('Please fill all the fields')
+      }
+    }
+  }, []);
   function handleCreate() {}
 
   return (

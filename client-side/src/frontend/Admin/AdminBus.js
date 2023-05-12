@@ -21,7 +21,7 @@ export default function AdminBus() {
     console.log(cookies.admin)
     // console.log(cookies.admin.username)
     axios.post("http://localhost:5001/admin/getDataBus", {
-      id : "admin",
+      id : cookies.admin.username
     }).then((response) => {
       console.log(response) //response.data is the array of the buses received from the database
     }).catch((error) => {

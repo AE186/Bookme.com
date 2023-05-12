@@ -15,10 +15,11 @@ export default function AdminCricket() {
     key: 0,
     show: false,
   });
+  const cookies = useCookies(["admin"]);
   //API call for getting cricket Tickets info from the db
   useEffect(() => {
     axios.post("http://localhost:5001/admin/getDataCricket", {
-      id: "admin",
+      id: cookies.admin.username,
       }).then((response) => {
         console.log(response) //response.data is the array of the cricket tickets received from the database")
       }).catch((error) => {
