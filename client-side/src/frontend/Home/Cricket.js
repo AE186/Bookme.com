@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import "./Home.css";
+import axios from "axios";
 import CricketTicket from "./CricketTicket";
 import CricketModal from "./CricketModal";
-// import axios from "axios";
+
 export default function Cricket() {
   const [cookies] = useCookies(["user"]);
-
 
   const [show, setShow] = useState(false);
   const [ticket, setTicket] = useState({
     key: 0,
-    _id : cookies.user,
-    type : "cricket",
+    _id: cookies.user,
+    type: "cricket",
     team1: "",
     team2: "",
     team1_img: "",
@@ -31,54 +31,70 @@ export default function Cricket() {
     },
     tickets: 1,
   });
+  const [allTickets, setAllTickets] = useState([]);
   // var alltickets = [];
-
 
   // API call to get all cricket tickets but it is not represented in the frontend
 
-  // axios.get("http://localhost:5001/cricket").then((res) => {
-  //   for (let i=0 ; i<res.data.length ; i++){
-  //     temp = {
-  //       key: res.data[i]._id,
-  //       team1: res.data[i].team1,
-  //       team2: res.data[i].team2,
-  //       time: res.data[i].time,
-  //       date: res.data[i].date,
-  //       venue: res.data[i].venue,
-  //       city: res.data[i].city,
-  //     }
-  //     alltickets.push(temp)
-  //   }
-  // });
+  useEffect(() => {
+    axios
+      .get("http://localhost:5001/cricket")
+      .then((res) => {
+        let arr = [];
+        for (let i = 0; i < res.data.length; i++) {
+          const item = res.data[i];
+          const temp = {
+            key: item._id,
+            team1: item.team1,
+            team2: item.team2,
+            team1_img:
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+            team2_img:
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
+            time: item.time,
+            date: item.date,
+            venue: item.venue,
+            city: item.city,
+          };
+          arr.push(temp);
+        }
+        setAllTickets(arr);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-  var alltickets = [
-    {
-      key: '645d42e548403e7854eccf88',
-      team1: "Pakistan",
-      team2: "New Zealand",
-      team1_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-      team2_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-      time: "3:30 PM",
-      date: "05-05-2023",
-      venue: "National Bank Stadium",
-      city: "Karachi",
-    },
-    {
-      key: '645d42e548403e7854eccf89',
-      team1: "Pakistan",
-      team2: "New Zealand",
-      team1_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-      team2_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-      time: "3:30 PM",
-      date: "05-05-2023",
-      venue: "National Bank Stadium",
-      city: "Karachi",
-    },
-  ];
+  // var allTickets = [
+  //   {
+  //     key: "645d42e548403e7854eccf88",
+  //     team1: "Pakistan",
+  //     team2: "New Zealand",
+  //     team1_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+  //     team2_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
+  //     time: "3:30 PM",
+  //     date: "05-05-2023",
+  //     venue: "National Bank Stadium",
+  //     city: "Karachi",
+  //   },
+  //   {
+  //     key: "645d42e548403e7854eccf89",
+  //     team1: "Pakistan",
+  //     team2: "New Zealand",
+  //     team1_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+  //     team2_img:
+  //       "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
+  //     time: "3:30 PM",
+  //     date: "05-05-2023",
+  //     venue: "National Bank Stadium",
+  //     city: "Karachi",
+  //   },
+  // ];
+
+  console.log(allTickets);
 
   return (
     <div className="home-wrapper">
@@ -106,7 +122,8 @@ export default function Cricket() {
         style={{ minHeight: "300px" }}
       >
         <div className="cricket-ticket-space">
-          {alltickets.map((item) => {
+          {allTickets.map((item) => {
+            console.log("rendered");
             return (
               <CricketTicket
                 info={item}
