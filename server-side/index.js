@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-
+require("dotenv").config();
 const customerModel = require("./Model/Customer.js");
 const busModel = require("./Model/buses.js");
 const matchesModel = require("./Model/matches.js");
@@ -18,15 +18,15 @@ const nodemailer = require("nodemailer");
 const transport = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "k200177@nu.edu.pk",
-    pass: "t2t1s342FFt2",
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 app.use(express.json());
 app.use(cors());
 
 mongoose.connect(
-  "mongodb+srv://Ammar:t2t1s342FFt2@bookaro.xkiebui.mongodb.net/BooKaro?retryWrites=true&w=majority",
+  `${process.env.MongoDB_Key}`,
   {
     useNewUrlParser: true,
   }
@@ -53,11 +53,12 @@ app.post("/signup", async (req, res) => {
         from: "k200177@nu.edu.pk",
         to: email,
         subject: "Confirm your account",
-        html: `<h1>Email Confirmation</h1>
+        html: `<h1> Email Confirmation </h1>
         <h2>Hello ${fname}</h2>
         <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:3000/confirm/${token}> Click here</a>
+        <a href=http://localhost:5001/confirm/${token}> Click here</a>
         </div>`,
+        
       })
       .catch((err) => console.log(`Could not send email`));
     res.sendStatus(200);
@@ -123,7 +124,12 @@ app.post("/signin", async (req, res) => {
     .then(
       (response) => {
         console.log(response);
-        res.send(response);
+        if(response.Status === "Active"){
+          res.send(response)
+        }
+        else{
+          res.sendStatus(404);
+        }
       },
       (err) => {
         res.sendStatus(404); //not found
@@ -318,15 +324,18 @@ app.get("/confirm/:confirmationCode", async (req, res) => {
     const token = req.params.confirmationCode;
     customerModel.findOne({ confirmationCode: token }).then(
       (response) => {
+        if(!response){
+          return res.sendStatus(404)
+        }
         response.Status = "Active";
         response.save();
-        res.send(response);
+        res.status(200).send({msg : 'Account registered successfully'})
+        // res.send({message : 'Thank you for confirming your email. You can click on below button to proceed to login'});
         // console.log(response)
-      },
-      (err) => {
-        res.send(err);
       }
-    );
+    ).catch((error)=>{
+      console.log("Error", error)
+    })
   } catch (err) {
     console.log(err);
   }

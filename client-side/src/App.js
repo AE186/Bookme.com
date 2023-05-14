@@ -34,7 +34,7 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/welcome"
+            path="/confirm/:confirmationCode  "
             element={<Welcome />}
           ></Route>
         </Routes>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "./Admin.css";
 import "../Home/Home.css";
@@ -26,6 +26,10 @@ export default function UpdateModal({ event, modal, setModal }) {
 
   // API cal for getting tickets info using modal.key
   // useEffect(() => {}, []);
+
+  useEffect(() => {
+    
+  }, []);
 
   function handleClose() {
     setModal({

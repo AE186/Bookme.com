@@ -1,39 +1,23 @@
-// import React from "react";
-// import {useEffect, useState} from "react";
-// // import axios from 'axios';
-// // import authservice from "../../services/auth_service";
-// import { useNavigate } from "react-router-dom";
-// // import './Login/Login.css'
-// import axios from "axios";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-// export default function login(){
-//     const navigate = useNavigate();
-//     const [token, setToken] = useState("");
+const Welcome = (props) =>{
+  const navigate = useNavigate()
+  if (props.match.path === "/confirm/:confirmationCode"){
 
-//     useEffect(() => {
-//         axios.get(`http://localhost:5001/confirm/${tokenReceived}`).then((response)=> {
-//         setToken("tokenReceived")
-//         })
-
-//     }, []);
-    
-//     function handlesubmit(){
-//         axios.get(`http://localhost:5001/confirm/${token}`).then((response)=>{
-//         navigate("/signin");
-//         })
-//     }
+    axios.get("http:/localhost:5001/confirm"+props.match.params.confirmationCode).then((response) => {
+      return response.data
+    })
+  }
+  return (
+    <div>
+      <h3>
+        <strong>Account Confirmed</strong>
+      </h3>
+      <button onClick={navigate("/login")}>Login</button>
+    </div>
+  )
+};
 
 
-//     return (
-//         <div className="centerPage">
-//             <h1> Thank you for registering </h1>
-//         <button
-//           className="login-ele btn"
-//           onClick={handlesubmit}
-//         >
-//           Sign In
-//         </button>
-//         </div>
-
-//     )
-// }
+export default Welcome;
