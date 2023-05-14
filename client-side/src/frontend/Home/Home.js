@@ -78,7 +78,7 @@ export default function Home() {
         <Setting
           user={user}
           setUser={setUser}
-          isAdmin={true}
+          isAdmin={false}
         />
       )}
 

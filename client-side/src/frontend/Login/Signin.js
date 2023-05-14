@@ -7,7 +7,7 @@ import axios from "axios";
 
 export default function Signin() {
   const [user, setUser] = useState({ Email: "", Password: "" });
-  const [cookies, setCookies, removeCookies] = useCookies(["user"]);
+  const [cookies, setCookies, removeCookies] = useCookies(["user"], ["admin"]);
 
   removeCookies("user");
   removeCookies("admin");
@@ -15,59 +15,63 @@ export default function Signin() {
   const navigate = useNavigate();
 
   function handleSubmit() {
+    if (user.Email === "admin") {
+      axios
+        .post("http://localhost:5001/signin/admin", {
+          email: user.Email,
+          Password: user.Password,
+        })
+        .then(
+          (response) => {
+            console.log(response);
 
-    if (user.Email === "admin" && user.Password === "admin") {
-      axios.post('http://localhost:5001/signin/admin' , {
-        email : user.Email,
-        Password: user.Password
-      }).then((response) => {
-        if(response.data && "_id" in response.data){
-          setCookies("admin",{
-            ...response.data
-          },{
-            maxAge : 60 * 60 *24,
-            path : "/"
-          })
-          navigate("/admin")
-          return;
-        }
-      } , (err)=>{
-        document.getElementsByClassName("danger")[0].style.display = "Block";
+            if (response.data && "_id" in response.data) {
+              console.log(response.data._id);
+              setCookies("admin", response.data._id, {
+                maxAge: 60 * 60 * 24,
+                path: "/",
+              });
 
-        
-      })
-      // setCookies("admin", "admin", {
-      //   maxAge: 60 * 60 * 24,
-      //   path: "/",
-      // });
-      // navigate("/admin");
-      // return;
+              navigate("/admin");
+              return;
+            }
+            // else {
+
+            // }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      axios
+        .post("http://localhost:5001/signin", {
+          email: user.Email,
+          Password: user.Password,
+        })
+        .then((res) => {
+          console.log(res);
+
+          if (res.data && "_id" in res.data) {
+            console.log("success");
+            setCookies("user", res.data._id, {
+              maxAge: 60 * 60 * 24,
+              path: "/",
+            });
+            navigate("/");
+          } else {
+            document.getElementsByClassName("danger")[0].style.display =
+              "Block";
+          }
+        });
     }
-
-    axios
-      .post("http://localhost:5001/signin", {
-        email: user.Email,
-        Password: user.Password,
-      })
-      .then((res) => {
-        console.log(res);
-
-        if (res.data && "_id" in res.data) {
-          console.log("success");
-          setCookies("user", res.data._id, {
-            maxAge: 60 * 60 * 24,
-            path: "/",
-          });
-          navigate("/");
-        } else {
-          document.getElementsByClassName("danger")[0].style.display = "Block";
-        }
-      });
   }
 
   function handleInput(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
+
+  // console.log(cookies);
 
   return (
     <div className="centerPage">

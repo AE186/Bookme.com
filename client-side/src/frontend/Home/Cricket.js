@@ -15,8 +15,10 @@ export default function Cricket() {
     type: "cricket",
     team1: "",
     team2: "",
-    team1_img: "",
-    team2_img: "",
+    team1_img:
+      "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
+    team2_img:
+      "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
     time: "",
     date: "",
     venue: "",
@@ -130,6 +132,7 @@ export default function Cricket() {
                 setTicket={setTicket}
                 setShow={setShow}
                 isticket={false}
+                isupdate={false}
               />
             );
           })}

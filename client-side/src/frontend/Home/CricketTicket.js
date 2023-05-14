@@ -5,8 +5,13 @@ export default function CricketTicket({
   setTicket,
   setShow,
   isticket,
+  isupdate,
   setModal,
 }) {
+  const [hourString, minute] = info.time.split(":");
+  const hour = +hourString % 24;
+  const time = (hour % 12 || 12) + ":" + minute + (hour < 12 ? " AM" : " PM");
+
   var date = new Date(info.date);
   var day = {
     0: "Saturday",
@@ -33,7 +38,13 @@ export default function CricketTicket({
   };
 
   function handleClick() {
-    if (!isticket) {
+    if (isupdate) {
+      setModal((prevState) => ({
+        ...prevState,
+        key: info._id,
+        show: true,
+      }));
+    } else if (!isticket) {
       setShow(true);
       setTicket((prevState) => ({
         ...prevState,
@@ -70,7 +81,9 @@ export default function CricketTicket({
           name={info.id}
         >
           <img
-            src={info.team1_img}
+            src={
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png"
+            }
             alt=""
             name={info.id}
           />
@@ -84,14 +97,14 @@ export default function CricketTicket({
             className="cricket-ticket-time"
             name={info.id}
           >
-            {info.time}
+            {time}
           </div>
 
           <div
             className="cricket-ticket-date"
             name={info.id}
           >
-            {day[date.getDay()]} {date.getDate()} {month[date.getMonth()]},{" "}
+            {day[date.getDay()]} {date.getDate() + 1} {month[date.getMonth()]},{" "}
             {date.getFullYear()}
           </div>
 
@@ -108,7 +121,9 @@ export default function CricketTicket({
           name={info.id}
         >
           <img
-            src={info.team2_img}
+            src={
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png"
+            }
             alt=""
             name={info.id}
           />

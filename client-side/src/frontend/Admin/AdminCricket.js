@@ -15,59 +15,26 @@ export default function AdminCricket() {
     key: 0,
     show: false,
   });
-  const cookies = useCookies(["admin"]);
+  const [result, setResult] = useState([]);
+  const [change, setChange] = useState(false);
+
+  const [cookies] = useCookies(["admin"]);
+
   //API call for getting cricket Tickets info from the db
   useEffect(() => {
-    axios.post("http://localhost:5001/admin/getDataCricket", {
-      id: cookies.admin.username,
-      }).then((response) => {
-        console.log(response) //response.data is the array of the cricket tickets received from the database")
-      }).catch((error) => {
-        console.log(error)
-      }
-    )
-  }, []);
-  var result = [
-    {
-      key: 1,
-      team1: "Pakistan",
-      team2: "New Zealand",
-      team1_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-      team2_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-      time: "3:30 PM",
-      date: "05-05-2023",
-      venue: "National Bank Stadium",
-      city: "Karachi",
-    },
-    {
-      key: 2,
-      team1: "Pakistan",
-      team2: "New Zealand",
-      team1_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-      team2_img:
-        "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-      time: "3:30 PM",
-      date: "05-05-2023",
-      venue: "National Bank Stadium",
-      city: "Karachi",
-    },
-    // {
-    //   key: 3,
-    //   team1: "Pakistan",
-    //   team2: "New Zealand",
-    //   team1_img:
-    //     "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png",
-    //   team2_img:
-    //     "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
-    //   time: "3:30 PM",
-    //   date: "05-05-2023",
-    //   venue: "National Bank Stadium",
-    //   city: "Karachi",
-    // },
-  ];
+    axios
+      .post("http://localhost:5001/admin/getDataCricket", {
+        id: cookies.admin,
+      })
+      .then((response) => {
+        console.log(response); //response.data is the array of the cricket tickets received from the database")
+        console.log(response.data.cricket);
+        setResult(response.data.cricket);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [change]);
 
   function handleChange(e) {
     setInput((prevState) => ({
@@ -82,16 +49,24 @@ export default function AdminCricket() {
 
   return (
     <div className="admin-service">
-      <CreateModal
-        show={show}
-        setShow={setShow}
-        event={"cricket"}
-      />
-      <UpdateModal
-        event={"cricket"}
-        modal={modal}
-        setModal={setModal}
-      />
+      {show && (
+        <CreateModal
+          show={show}
+          setShow={setShow}
+          event={"cricket"}
+          setChange={setChange}
+          change={change}
+        />
+      )}
+      {modal.show && (
+        <UpdateModal
+          event={"cricket"}
+          modal={modal}
+          setModal={setModal}
+          setChange={setChange}
+          change={change}
+        />
+      )}
       <div className="admin-title">Cricket Tickets</div>
       <div className="admin-body">
         <div className="admin-search">
@@ -111,15 +86,30 @@ export default function AdminCricket() {
           </button>
         </div>
         <div className="admin-results">
-          {result.map((item) => {
-            return (
-              <CricketTicket
-                info={item}
-                isticket={true}
-                setModal={setModal}
-              />
-            );
-          })}
+          {input.date === "" &&
+            result.map((item) => {
+              return (
+                <CricketTicket
+                  info={item}
+                  isticket={false}
+                  isupdate={true}
+                  setModal={setModal}
+                />
+              );
+            })}
+          {input.date !== "" &&
+            result.map((item) => {
+              if (input.date === item.date) {
+                return (
+                  <CricketTicket
+                    info={item}
+                    isticket={false}
+                    isupdate={true}
+                    setModal={setModal}
+                  />
+                );
+              }
+            })}
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ export default function Setting({ user, setUser, isAdmin }) {
   });
   console.log(input);
 
-  const [cookies] = useCookies(["user"]);
+  const [cookies] = useCookies(["user"], ["admin"]);
 
   function handleInput(e) {
     console.log("change");
@@ -36,8 +36,39 @@ export default function Setting({ user, setUser, isAdmin }) {
 
     // Update Admin API Call
     if (isAdmin) {
-      console.log(input);
+      axios
+        .post("http://localhost:5001/admin/update", {
+          _id: cookies.admin,
+          fname: input.fname,
+          lname: input.lname,
+          email: input.email,
+          Password: input.Password,
+        })
+        .then((res) => {
+          console.log(res);
+
+          if (res.status == 200) {
+            console.log("Changed");
+            setUser((prevState) => ({
+              ...prevState,
+              ...input,
+            }));
+
+            document.getElementsByClassName(
+              "setting-btn"
+            )[0].style.backgroundColor = "rgb(230, 230, 230)";
+
+            setInput({
+              ...user,
+              Password: "",
+              reenter_pass: "",
+            });
+          } else {
+            console.log("error");
+          }
+        });
     } else {
+      console.log(cookies.user);
       axios
         .post("http://localhost:5001/user/update", {
           _id: cookies.user,
@@ -49,12 +80,22 @@ export default function Setting({ user, setUser, isAdmin }) {
         .then((res) => {
           console.log(res);
 
-          if (res.data.acknowledged) {
+          if (res.status == 200) {
             console.log("Changed");
             setUser((prevState) => ({
               ...prevState,
               ...input,
             }));
+
+            document.getElementsByClassName(
+              "setting-btn"
+            )[0].style.backgroundColor = "rgb(230, 230, 230)";
+
+            setInput({
+              ...user,
+              Password: "",
+              reenter_pass: "",
+            });
           } else {
             console.log("error");
           }
@@ -82,7 +123,7 @@ export default function Setting({ user, setUser, isAdmin }) {
           value={input.lname}
           onChange={handleInput}
         />
-        <div className="setting-label">Email </div>
+        <div className="setting-label">{isAdmin ? "Username" : "Email"}</div>
         <input
           type="email"
           className="setting-inp"

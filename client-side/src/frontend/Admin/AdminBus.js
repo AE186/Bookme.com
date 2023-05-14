@@ -1,60 +1,43 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+
 import "./Admin.css";
 import BusTicket from "../Home/BusTicket";
 import CreateModal from "./CreateModal";
 import UpdateModal from "./UpdateModal";
 import axios from "axios";
+
 export default function AdminBus() {
   const [input, setInput] = useState({
     date: "",
   });
-  const [cookies] = useCookies(["admin"])
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState({
     key: 0,
     show: false,
   });
+  const [allResult, setAllResult] = useState([]);
+  const [change, setChange] = useState(false);
+
+  const [cookies] = useCookies(["admin"]);
 
   // API call for getting tickets info using modal.key
   useEffect(() => {
-    console.log(cookies.admin)
-    // console.log(cookies.admin.username)
-    axios.post("http://localhost:5001/admin/getDataBus", {
-      id : cookies.admin.username
-    }).then((response) => {
-      console.log(response) //response.data is the array of the buses received from the database
-    }).catch((error) => {
-      console.log(error)
-    })
-  }, []);
+    console.log(cookies.admin);
+    axios
+      .post("http://localhost:5001/admin/getDataBus", {
+        id: cookies.admin,
+      })
+      .then((response) => {
+        console.log(response); //response.data is the array of the cricket tickets received from the database")
+        // console.log(response.data.buses);
+        setAllResult(response.data.buses);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [change]);
   //Buses data received from API successfully
-
-
-  var result = [
-    {
-      key: 42069,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-    {
-      key: 42069,
-      pickup: "Karachi",
-      arrival: "Lahore",
-      date: "05-10-2023",
-      pickup_time: "10:00 AM",
-      arrival_time: "03:45 PM",
-      seats: 50,
-      left: 33,
-      price: 7999,
-    },
-  ];
 
   function handleChange(e) {
     setInput((prevState) => ({
@@ -69,16 +52,24 @@ export default function AdminBus() {
 
   return (
     <div className="admin-service">
-      <CreateModal
-        show={show}
-        setShow={setShow}
-        event={"bus"}
-      />
-      <UpdateModal
-        event={"bus"}
-        modal={modal}
-        setModal={setModal}
-      />
+      {show && (
+        <CreateModal
+          show={show}
+          setShow={setShow}
+          event={"bus"}
+          setChange={setChange}
+          change={change}
+        />
+      )}
+      {modal.show && (
+        <UpdateModal
+          event={"bus"}
+          modal={modal}
+          setModal={setModal}
+          setChange={setChange}
+          change={change}
+        />
+      )}
       <div className="admin-title">Bus Tickets</div>
       <div className="admin-body">
         <div className="admin-search">
@@ -98,16 +89,30 @@ export default function AdminBus() {
           </button>
         </div>
         <div className="admin-results">
-          {result.map((item) => {
-            return (
-              <BusTicket
-                info={item}
-                isticket={false}
-                isupdate={true}
-                setModal={setModal}
-              />
-            );
-          })}
+          {input.date === "" &&
+            allResult.map((item) => {
+              return (
+                <BusTicket
+                  info={item}
+                  isticket={false}
+                  isupdate={true}
+                  setModal={setModal}
+                />
+              );
+            })}
+          {input.date !== "" &&
+            allResult.map((item) => {
+              if (input.date === item.date) {
+                return (
+                  <BusTicket
+                    info={item}
+                    isticket={false}
+                    isupdate={true}
+                    setModal={setModal}
+                  />
+                );
+              }
+            })}
         </div>
       </div>
     </div>
