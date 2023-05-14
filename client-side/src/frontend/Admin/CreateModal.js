@@ -254,6 +254,7 @@ export default function CreateModal({
           )}
           <button
             className="admin-create-btn"
+            style={{ backgroundColor: "rgb(3 169 244)" }}
             onClick={handleCreate}
           >
             Create

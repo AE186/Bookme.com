@@ -204,9 +204,10 @@ app.post("/payment", async (req, res) => {
     console.log(receivedTicket._id);
     enclosureModel.findOne({ _id: receivedTicket.enclosure.key }).then(
       (foundEnclosure) => {
+        console.log(foundEnclosure);
         foundEnclosure.left = foundEnclosure.left - receivedTicket.tickets;
         foundEnclosure.save();
-        const ticket = new cricketTicketModel({
+        const ticket = new matchesModel({
           team1: receivedTicket.team1,
           team2: receivedTicket.team2,
           date: receivedTicket.date,
@@ -215,6 +216,7 @@ app.post("/payment", async (req, res) => {
           city: receivedTicket.city,
           enclosure: foundEnclosure._id,
         });
+        console.log(ticket);
         Promise.all([ticket.save()]).then(
           (savedTicket) => {
             customerModel.findOne({ _id: receivedTicket._id }).then(
@@ -258,7 +260,7 @@ app.post("/payment", async (req, res) => {
 
 app.get("/user/ticket/:id", async (request, response) => {
   try {
-    matchesModel
+    customerModel
       .findOne({ _id: request.params.id })
       .then((foundCustomer) => {
         const busTickets = [];
@@ -273,7 +275,7 @@ app.get("/user/ticket/:id", async (request, response) => {
         });
 
         const cricketPromises = foundCustomer.cricketTicket.map((cricketId) => {
-          return cricketTicketModel
+          return matchesModel
             .findOne({ _id: cricketId })
             .then((foundCricket) => {
               console.log(`Found Cricket ticket is\n`);

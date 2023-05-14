@@ -38,7 +38,7 @@ export default function MyTickets() {
             team2_img:
               "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png",
             time: item.time,
-            date: item.Date,
+            date: item.date,
             venue: item.venue,
             city: item.city,
           };

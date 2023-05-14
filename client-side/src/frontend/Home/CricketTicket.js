@@ -81,7 +81,9 @@ export default function CricketTicket({
           name={info.id}
         >
           <img
-            src={info.team1_img}
+            src={
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/PAK%20Logo.png"
+            }
             alt=""
             name={info.id}
           />
@@ -119,7 +121,9 @@ export default function CricketTicket({
           name={info.id}
         >
           <img
-            src={info.team2_img}
+            src={
+              "https://bookmepk.s3.eu-central-1.amazonaws.com/static/cricket/storage/teams/new-zealand.png"
+            }
             alt=""
             name={info.id}
           />
